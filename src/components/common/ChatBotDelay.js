@@ -1,0 +1,3 @@
+const CHAT_BOT_DELAY = 1250;
+
+export { CHAT_BOT_DELAY }

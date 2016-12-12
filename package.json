@@ -1,0 +1,40 @@
+{
+  "name": "JammApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cloudinary": "^1.4.4",
+    "firebase": "^3.6.1",
+    "lodash": "^4.17.2",
+    "moment": "^2.17.0",
+    "react": "15.3.2",
+    "react-native": "0.37.0",
+    "react-native-autogrow-textinput": "^3.0.1",
+    "react-native-contacts": "^0.6.0",
+    "react-native-drawer": "^2.3.0",
+    "react-native-fetch-blob": "^0.10.0",
+    "react-native-image-picker": "^0.23.0",
+    "react-native-invertible-scroll-view": "^1.0.0",
+    "react-native-keyboard-spacer": "^0.3.0",
+    "react-native-meteor": "^1.0.2",
+    "react-native-router-flux": "^3.37.0",
+    "react-native-vector-icons": "^3.0.0",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
+  },
+  "jest": {
+    "preset": "jest-react-native"
+  },
+  "devDependencies": {
+    "babel-jest": "17.0.2",
+    "babel-preset-react-native": "1.9.0",
+    "jest": "17.0.3",
+    "jest-react-native": "17.0.3",
+    "react-test-renderer": "15.3.2"
+  }
+}
