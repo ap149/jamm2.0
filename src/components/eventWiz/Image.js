@@ -3,17 +3,17 @@ import { View, Keyboard, LayoutAnimation } from 'react-native';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
 import ChatOption from '../chatInput/ChatOption'
 import { connect } from 'react-redux';
-import { addIcon } from '../../actions';
-import EventWizMethods from './EventWizMethods';
+import { addIcon, updateStatus } from '../../actions';
+import { EventStatus } from './EventStatus';
 
 class EventImage extends Component {
   chooseIcon(){
     this.props.addIcon('glass');
-    EventWizMethods.promptChooseInvites(true);    
+    // EventWizMethods.promptChooseInvites(true);    
   }
 
   skip(){
-    EventWizMethods.promptChooseInvites(true);
+    this.props.updateStatus(EventStatus.INVITES);
   }
 
   render(){
@@ -44,4 +44,4 @@ const mapStateToProps = (state) => {
   return { imgUrl };
 };
 
-export default connect(mapStateToProps, { addIcon })(EventImage);
+export default connect(mapStateToProps, { addIcon, updateStatus })(EventImage);

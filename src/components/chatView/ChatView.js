@@ -22,19 +22,6 @@ class ChatView extends Component {
     };    
   }
 
-  componentDidUpdate() {
-    // LayoutAnimation.linear();
-  }
-
-  componentWillUnmount() {
-
-  }
-
-componentWillReceiveProps(newProps) {
-  console.log('received props');
-  console.log(newProps);
-}
-
   getTimeStamp(date){
     return moment(date).calendar(null, {
       sameDay: 'h:mm A',
@@ -49,7 +36,7 @@ componentWillReceiveProps(newProps) {
   renderChatBubble(item){
     return (
       <ChatBubble 
-        // fromUser={item.fromObj.userId === this.props.userId}
+        fromUser={item.fromObj.userId === this.props.userId}
         index={item.index}
         timestamp={this.getTimeStamp(item.createdAt)}
       >
@@ -99,9 +86,9 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  // const { userId } = state.user;
+  const { userId } = state.user;
   const { messages } = state.eventInfo;
-  return { messages };
+  return { userId, messages };
 };
 
 export default connect(mapStateToProps, {})(ChatView);

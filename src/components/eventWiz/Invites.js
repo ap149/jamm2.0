@@ -5,13 +5,14 @@ import ChatOption from '../chatInput/ChatOption'
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-class EventInvites extends Component {
+class Invites extends Component {
 
   chooseContacts(){
     Actions.chooseContacts();
   }
 
   render(){
+    console.log(this.props.status);
     return (
       <ChatOptionContainer>
         <ChatOption
@@ -29,9 +30,9 @@ class EventInvites extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { imgUrl, iconName } = state.eventInfo;
+  const { status } = state.eventInfo;
 
-  return { imgUrl };
+  return { status };
 };
 
-export default connect(mapStateToProps, {  })(EventInvites);
+export default connect(mapStateToProps, {  })(Invites);

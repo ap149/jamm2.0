@@ -6,7 +6,7 @@ import { Colours } from '../styles';
 class ChatOption extends Component {
 
   componentWillMount(){
-    // LayoutAnimation.spring();
+    LayoutAnimation.spring();
   }
 
   iconColour(){

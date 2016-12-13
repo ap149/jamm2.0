@@ -15,7 +15,7 @@ class AvatarIcon extends Component {
     return (
       <View style={outerContainer}>
         <View style={innerContainer}>
-          <Icon name={this.props.iconName} size={26} color={Colours.light}/>        
+          <Icon name={this.props.iconName} size={20} color={Colours.light}/>        
         </View>
       </View>
     )

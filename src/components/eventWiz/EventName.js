@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { updateEventName, addIcon, updateStatus } from '../../actions';
 import { pushMessage } from '../../actions';
 import * as EventWizHelpers from './EventWizHelpers';
+import { EventStatus } from './EventStatus';
 
 class EventName extends Component {
   constructor(){
@@ -23,10 +24,9 @@ class EventName extends Component {
     const eventName = this.state.inputText;
     this.props.updateEventName({eventName: eventName, arrangedBy: this.props.displayName});
     this.props.addIcon('calendar-o');
-    this.props.updateStatus('eventImage');
+    this.props.updateStatus(EventStatus.IMAGE);
     const msg = EventWizHelpers.createUserMessage(this.props.userId, eventName);
     this.props.pushMessage(msg);
-    // Actions.refresh();
     Keyboard.dismiss();
   }
 
@@ -55,9 +55,9 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  const { userId } = state.user;
+  const { userId, displayName } = state.user;
 
-  return { userId };
+  return { userId, displayName };
 };
 
 export default connect(mapStateToProps, { updateEventName, addIcon, updateStatus, pushMessage})(EventName);

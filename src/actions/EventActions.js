@@ -11,8 +11,6 @@ import {
 } from './types';
 
 export const pushMessage = (msgObj) => {
-  console.log("message");
-  console.log(msgObj);
   return {
     type: PUSH_MESSAGE,
     payload: msgObj
