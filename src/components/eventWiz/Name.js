@@ -8,7 +8,7 @@ import { pushMessage } from '../../actions';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 
-class EventName extends Component {
+class Name extends Component {
   constructor(){
     super();
     this.state = {
@@ -22,11 +22,14 @@ class EventName extends Component {
 
   onSend(){
     const eventName = this.state.inputText;
+    let msg1, msg2;
     this.props.updateEventName({eventName: eventName, arrangedBy: this.props.displayName});
     this.props.addIcon('calendar-o');
     this.props.updateStatus(EventStatus.IMAGE);
-    const msg = EventWizHelpers.createUserMessage(this.props.userId, eventName);
-    this.props.pushMessage(msg);
+    msg1 = Object.assign({},EventWizHelpers.createUserMessage(this.props.userId, eventName));
+    this.props.pushMessage(msg1);
+    msg2 = Object.assign({}, EventWizHelpers.createBotMessage(EventWizHelpers.chooseImageMessage(eventName)));
+    this.props.pushMessage(msg2);
     Keyboard.dismiss();
   }
 
@@ -60,4 +63,4 @@ const mapStateToProps = (state) => {
   return { userId, displayName };
 };
 
-export default connect(mapStateToProps, { updateEventName, addIcon, updateStatus, pushMessage})(EventName);
+export default connect(mapStateToProps, { updateEventName, addIcon, updateStatus, pushMessage})(Name);

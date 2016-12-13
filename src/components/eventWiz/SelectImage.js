@@ -3,17 +3,26 @@ import { View, Keyboard, LayoutAnimation } from 'react-native';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
 import ChatOption from '../chatInput/ChatOption'
 import { connect } from 'react-redux';
-import { addIcon, updateStatus } from '../../actions';
+import { addIcon, updateStatus, pushMessage } from '../../actions';
+import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 
-class EventImage extends Component {
+class SelectImage extends Component {
   chooseIcon(){
     this.props.addIcon('glass');
     // EventWizMethods.promptChooseInvites(true);    
   }
 
   skip(){
-    this.props.updateStatus(EventStatus.INVITES);
+    const msg = Object.assign({}, EventWizHelpers.createUserMessage(this.props.userId, EventWizHelpers.skipMessage));
+    this.props.pushMessage(msg);
+    this.props.updateStatus(false);
+    let _this = this;
+    setTimeout(function() {
+      const msg = Object.assign({}, EventWizHelpers.createBotMessage(EventWizHelpers.chooseContacts));
+      _this.props.pushMessage(msg);
+      _this.props.updateStatus(EventStatus.INVITES);          
+    }, EventWizHelpers.CHATBOT_DELAY);
   }
 
   render(){
@@ -39,9 +48,10 @@ class EventImage extends Component {
 };
 
 const mapStateToProps = (state) => {
+  const { userId } = state.user;
   const { imgUrl, iconName } = state.eventInfo;
 
-  return { imgUrl };
+  return { userId, imgUrl };
 };
 
-export default connect(mapStateToProps, { addIcon, updateStatus })(EventImage);
+export default connect(mapStateToProps, { addIcon, updateStatus, pushMessage })(SelectImage);

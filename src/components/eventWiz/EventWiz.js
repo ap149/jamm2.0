@@ -1,4 +1,4 @@
-
+import Meteor, { createContainer, MeteorComplexListView } from 'react-native-meteor';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import React, { Component } from 'react';
 import { 
@@ -11,21 +11,21 @@ import {
   Button,
   LayoutAnimation 
 } from 'react-native';
-import Meteor, { createContainer, MeteorComplexListView } from 'react-native-meteor';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
-import ChatView from '../chatView/ChatView';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Colours } from '../styles';
 import { Border } from '../common';
+import ChatView from '../chatView/ChatView';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 import EventWizNavBar from './EventWizNavBar';
-import EventName from './EventName';
-import Image from './Image';
-import Invites from './Invites';
-import EventInvitees from '../eventInfo/EventInvitees';
-import EventNewGroupName from './EventNewGroupName';
-import EventInfo from '../eventInfo/EventInfo';
+import Name from './Name';
+import SelectImage from './SelectImage';
+import SelectInvites from './SelectInvites';
+import SelectedInvites from './SelectedInvites';
+import NewGroupName from './NewGroupName';
+
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 
 let botMessage = {
@@ -47,40 +47,48 @@ class EventWiz extends Component {
   }
 
   componentWillMount(){
-    const firstName = this.props.displayName.split(' ')[0];
-    // const msg = 
+    const firstName = this.props.displayName.split(' ')[0]; 
     this.props.pushMessage(EventWizHelpers.initMsg(firstName));
-    // botMessage.body = "Hi ${firstName} - let's set up an event. First, please enter the name for";
-    // this.props.pushMessage(botMessage);
   }
 
-  onSkip(){
-    Actions.refresh();
-  }
+
+  renderSelectedInvites(contacts){
+    if (contacts.length === 0) return <View/>
+    const {
+      infoContainer,
+      iconContainer
+    } = styles;
+    return (
+      <SelectedInvites
+        contacts={contacts}
+        newGroupName={this.props.newGroupName}
+      />
+    )
+  };
 
   renderInputContainer(){
     switch (this.props.status){
       case EventStatus.INIT:
         return (
-          <EventName />
+          <Name />
         );
       case EventStatus.IMAGE:
         return (
-          <Image />
+          <SelectImage />
         ) 
       case EventStatus.INVITES:
         return (
-          <Invites />
+          <SelectInvites />
         ) 
-      case 'newGroupName':
+      case EventStatus.NEW_GROUP_NAME:
         return (
-          <EventNewGroupName 
+          <NewGroupName 
             passedData={this.state.contacts}
           />
         ) 
       default:
         return (
-          <ChatInputEmpty></ChatInputEmpty>
+          <ChatInputEmpty loading></ChatInputEmpty>
         )
     }
   }
@@ -99,10 +107,12 @@ class EventWiz extends Component {
 
         <View style={outerContainer}>
           <EventWizNavBar />
+          {this.renderSelectedInvites(this.props.contacts)}
+          <Border shadow/>          
           <ChatView 
             chatData={this.getDataSource()}
           />
-          <Border />
+          <Border/>
           {this.renderInputContainer()}
           <KeyboardSpacer/>
         </View>
@@ -114,13 +124,25 @@ class EventWiz extends Component {
 const styles = {
   outerContainer: {
     flex: 1
+  },
+
+  infoContainer: {
+    flexDirection: 'row'
+  },
+
+  iconContainer: {
+    width: 40,
+    minHeight: 40,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: 'green'
   }
 }
 
 const mapStateToProps = (state) => {
   const { userId, displayName, phoneNumber } = state.user;
-  const { status, messages, eventName, contacts } = state.eventInfo;
-  return { userId, displayName, status, messages, eventName, contacts };
+  const { status, messages, eventName, contacts, newGroupName } = state.eventInfo;
+  return { userId, displayName, status, messages, eventName, contacts, newGroupName };
 };
 
 export default connect(mapStateToProps, { pushMessage, resetEventInfo, setStatusLoading })(EventWiz);

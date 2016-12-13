@@ -23,7 +23,7 @@ const Fonts = {
   },
   itemH2: {
     fontSize: 14,
-    lineHeight: 22,
+    lineHeight: 18,
     fontWeight: '500'
   },
   itemH2Alt: {

@@ -53,8 +53,8 @@ class ChatOption extends Component {
 
 const styles = {
   outerContainer: {
-    paddingTop: 8,
-    paddingHorizontal: 8,
+    paddingTop: 10,
+    paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -64,7 +64,7 @@ const styles = {
     borderWidth: 1,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    borderRadius: 3,
+    borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center'
   },

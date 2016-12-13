@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
-import { toggleContact, resetEventInfo } from '../../actions';
+import { toggleContact, resetEventInfo, updateStatus, pushMessage } from '../../actions';
 import { Actions } from 'react-native-router-flux';
-import EventWizMethods from '../eventWiz/EventWizMethods';
+import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
+import { EventStatus } from '../eventWiz/EventStatus';
 import { View, TouchableOpacity, Text, ListView, LayoutAnimation } from 'react-native';
 import { NavBarContainer } from '../navBar/NavBarContainer';
 import { NavTextButton } from '../navBar/NavTextButton';
@@ -78,10 +79,10 @@ class ChooseContacts extends Component {
   }
 
   done(){
-    EventWizMethods.promptNewGroupName(true);
-    // Acitons.refresh({key:'eventWiz', contacts: this.props.contacts});
-    Actions.pop({refresh: {contacts: this.props.contacts}});
-    // Actions.refresh({contacts: this.props.contacts});   
+    const msg = Object.assign({}, EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME));
+    this.props.pushMessage(msg);
+    this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+    Actions.pop({refresh: {contacts: this.props.contacts}});   
   }
 
   toggleContact(contactIndex){
@@ -287,4 +288,4 @@ const mapStateToProps = (state) => {
   return { contacts };
 };
 
-export default connect(mapStateToProps, { toggleContact, resetEventInfo })(ChooseContacts);
+export default connect(mapStateToProps, { toggleContact, resetEventInfo, updateStatus, pushMessage })(ChooseContacts);

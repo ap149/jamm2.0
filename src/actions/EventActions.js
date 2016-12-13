@@ -7,7 +7,8 @@ import {
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
   ADD_ICON,
-  TOGGLE_CONTACT
+  TOGGLE_CONTACT,
+  UPDATE_NEW_GROUP_NAME
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -48,6 +49,13 @@ export const toggleContact = (contactIndex) => {
   return {
     type: TOGGLE_CONTACT,
     payload: contactIndex
+  }
+}
+
+export const updateNewGroupName = (name) => {
+  return {
+    type: UPDATE_NEW_GROUP_NAME,
+    payload: name
   }
 }
 

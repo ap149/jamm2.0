@@ -18,9 +18,9 @@ class EventWizNavBar extends Component {
 
   cancel() {
     // console.log(this.props.messages);
-    Actions.pop();
-    // Meteor.call('resetEventWiz');
-    this.props.resetEventInfo();            
+    // Meteor.call('resetEventWiz');            
+    Actions.pop();    
+    this.props.resetEventInfo();    
   }
   
   editInfo(){

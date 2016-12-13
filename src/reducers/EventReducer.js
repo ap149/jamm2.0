@@ -5,7 +5,8 @@ import {
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
   ADD_ICON,
-  TOGGLE_CONTACT
+  TOGGLE_CONTACT,
+  UPDATE_NEW_GROUP_NAME
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -16,7 +17,9 @@ const INITIAL_STATE = {
   imgUrl: false,
   iconName: false,
   status: 'init',
-  contacts: []
+  contacts: [],
+  contactsSelected: false,
+  newGroupName: false
 };
 
 toggleUser = function(contacts, contactIndex){
@@ -33,7 +36,19 @@ toggleUser = function(contacts, contactIndex){
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case RESET_EVENT_INFO:
-      return INITIAL_STATE;    
+      console.log('reseeting');
+      return Object.assign(
+        {},
+        state,
+        {createMode: true},
+        {messages: []},
+        {eventName: ''},
+        {arrangedBy: ''},
+        {imgUrl: false},
+        {iconName: false},
+        {status: 'init'},
+        {contacts: []}
+      );    
     case PUSH_MESSAGE:
       let newMessageArray = state.messages;
       newMessageArray.unshift(action.payload);
@@ -75,6 +90,12 @@ export default (state = INITIAL_STATE, action) => {
         {},
         state,
         {contacts: newContacts}
+      );
+    case UPDATE_NEW_GROUP_NAME:
+      return Object.assign(
+        {},
+        state,
+        {newGroupName: action.payload}
       );
     default:
       return state;

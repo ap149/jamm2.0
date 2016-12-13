@@ -5,7 +5,7 @@ import ChatOption from '../chatInput/ChatOption'
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-class Invites extends Component {
+class SelectInvites extends Component {
 
   chooseContacts(){
     Actions.chooseContacts();
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => {
   return { status };
 };
 
-export default connect(mapStateToProps, {  })(Invites);
+export default connect(mapStateToProps, {  })(SelectInvites);

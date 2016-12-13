@@ -4,8 +4,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 const ChatInputEmpty = ({loading, children}) => {
   return (
     <View style={styles.containerStyle}>
-      {loading ? <ActivityIndicator /> : <View/>}
-      <Text style={styles.textStyle}>{children}</Text>
+      {loading ? <ActivityIndicator /> : <Text style={styles.textStyle}>{children}</Text>}
     </View>
   );
 }
