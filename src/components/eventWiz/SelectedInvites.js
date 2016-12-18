@@ -54,7 +54,8 @@ class SelectedInvites extends Component {
 
 const styles = {
   infoContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: Colours.navBarBack
   },
 
   iconContainer: {

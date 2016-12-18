@@ -6,7 +6,8 @@ import {
   UPDATE_EVENT_NAME,
   ADD_ICON,
   TOGGLE_CONTACT,
-  UPDATE_NEW_GROUP_NAME
+  UPDATE_NEW_GROUP_NAME,
+  PROMPT_DATES
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -47,7 +48,9 @@ export default (state = INITIAL_STATE, action) => {
         {imgUrl: false},
         {iconName: false},
         {status: 'init'},
-        {contacts: []}
+        {contacts: []},
+        {contactsSelected: false},
+        {newGroupName: false}
       );    
     case PUSH_MESSAGE:
       let newMessageArray = state.messages;
@@ -97,6 +100,12 @@ export default (state = INITIAL_STATE, action) => {
         state,
         {newGroupName: action.payload}
       );
+    case PROMPT_DATES:
+      return Object.assign(
+        {},
+        state,
+        {status: 'prompt_dates'}
+      );    
     default:
       return state;
   }

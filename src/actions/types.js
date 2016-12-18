@@ -14,3 +14,4 @@ export const UPDATE_EVENT_NAME = 'update_event_name';
 export const ADD_ICON = 'add_icon';
 export const TOGGLE_CONTACT = 'toggle_contact';
 export const UPDATE_NEW_GROUP_NAME = 'update_new_group_name';
+export const PROMPT_DATES = 'prompt_dates';

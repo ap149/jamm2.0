@@ -87,6 +87,7 @@ class EventWiz extends Component {
           />
         ) 
       default:
+        console.log(this.props.status);
         return (
           <ChatInputEmpty loading></ChatInputEmpty>
         )

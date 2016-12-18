@@ -20,9 +20,13 @@ class ChatOption extends Component {
   }
 
   renderIcon(){
+    const {
+      iconStyle
+    } = styles;
+
     if (this.props.icon){
       return (
-        <Icon name={this.props.icon} size={12} color={this.iconColour()} style={{paddingRight: 5}}/>
+        <Icon name={this.props.icon} size={12} color={this.iconColour()} style={iconStyle}/>
       )
     } else {
       return <View/>
@@ -62,9 +66,9 @@ const styles = {
   innerContainerDefault: {
     borderColor: Colours.app,
     borderWidth: 1,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 18,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -80,6 +84,10 @@ const styles = {
   textDefault: {
     color: Colours.app,
     fontSize: 14
+  },
+
+  iconStyle: {
+    paddingRight: 6
   }
 }
 

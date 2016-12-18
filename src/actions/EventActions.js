@@ -8,7 +8,8 @@ import {
   UPDATE_EVENT_NAME,
   ADD_ICON,
   TOGGLE_CONTACT,
-  UPDATE_NEW_GROUP_NAME
+  UPDATE_NEW_GROUP_NAME,
+  PROMPT_DATES
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -56,6 +57,12 @@ export const updateNewGroupName = (name) => {
   return {
     type: UPDATE_NEW_GROUP_NAME,
     payload: name
+  }
+}
+
+export const promptDates = () => {
+  return {
+    type: PROMPT_DATES
   }
 }
 

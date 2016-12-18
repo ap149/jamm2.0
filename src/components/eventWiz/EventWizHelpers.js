@@ -14,17 +14,32 @@ let userMessage = {
 
 export const CHATBOT_DELAY = 1000;
 
+export const delayDefault = () => {
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(function() {
+      resolve();
+    }, 1000);
+  })
+  return promise;
+}
+
+
 export const createBotMessage = (body) => {
-  const msg = Object.assign({}, botMessage);
-  msg.body = body;
-  return msg;
+  return {
+    type: 'text',
+    fromType: 'user',
+    fromObj: {userId: null},
+    body: body,
+  }
 }
 
 export const createUserMessage = (userId, body) => {
-  const msg = Object.assign({}, userMessage);
-  msg.body = body;
-  msg.fromObj.userId = userId;
-  return msg;
+  return {
+    type: 'text',
+    fromType: 'user',
+    fromObj: {userId: userId},
+    body: body,
+  }
 }
 
 export const initMsg = (name) => {

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { updateEventName, addIcon, updateStatus } from '../../actions';
 import { pushMessage } from '../../actions';
+import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 
@@ -22,15 +23,20 @@ class Name extends Component {
 
   onSend(){
     const eventName = this.state.inputText;
-    let msg1, msg2;
+    let msg1, msg2;    
+    this.props.updateStatus(false);    
+    msg1 = EventWizHelpers.createUserMessage(this.props.userId, eventName);      
+    this.props.pushMessage(msg1);        
     this.props.updateEventName({eventName: eventName, arrangedBy: this.props.displayName});
-    this.props.addIcon('calendar-o');
-    this.props.updateStatus(EventStatus.IMAGE);
-    msg1 = Object.assign({},EventWizHelpers.createUserMessage(this.props.userId, eventName));
-    this.props.pushMessage(msg1);
-    msg2 = Object.assign({}, EventWizHelpers.createBotMessage(EventWizHelpers.chooseImageMessage(eventName)));
-    this.props.pushMessage(msg2);
-    Keyboard.dismiss();
+    this.props.addIcon('calendar-o');      
+    const _this = this;
+    Helpers.delayDefault()
+    .then(() => {
+      msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.chooseImageMessage(eventName));
+      _this.props.pushMessage(msg2);
+      _this.props.updateStatus(EventStatus.IMAGE);      
+      Keyboard.dismiss();
+    })
   }
 
   render(){

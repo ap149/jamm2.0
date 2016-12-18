@@ -79,7 +79,7 @@ class ChooseContacts extends Component {
   }
 
   done(){
-    const msg = Object.assign({}, EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME));
+    const msg = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
     this.props.pushMessage(msg);
     this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
     Actions.pop({refresh: {contacts: this.props.contacts}});   
