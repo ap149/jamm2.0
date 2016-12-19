@@ -35,8 +35,10 @@ const RouterComponent = () => {
           <Scene key='eventList' component={EventList} hideNavBar={true}/>      
       </Scene>           
       <Scene key='calendarList' component={CalendarList} hideNavBar={true}/>
-      <Scene key="eventWiz" direction="vertical" hideNavBar={true} component={EventWiz}  panHandlers={null}/>
-      <Scene key="chooseContacts" direction="vertical" hideNavBar={true} component={ChooseContacts}  panHandlers={null}/>
+      <Scene key='eventWiz'>
+        <Scene key="eventWizChat" direction="vertical" hideNavBar={true} component={EventWiz}  panHandlers={null}/>
+        <Scene key="chooseContacts" direction="vertical" hideNavBar={true} component={ChooseContacts}  panHandlers={null}/>
+      </Scene>
     </Router>
   );
 };

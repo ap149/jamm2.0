@@ -9,12 +9,14 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  LayoutAnimation 
+  LayoutAnimation
 } from 'react-native';
+import * as _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Colours } from '../styles';
+import { Colours, Fonts } from '../styles';
 import { Border } from '../common';
 import ChatView from '../chatView/ChatView';
 import * as EventWizHelpers from './EventWizHelpers';
@@ -23,9 +25,11 @@ import EventWizNavBar from './EventWizNavBar';
 import Name from './Name';
 import SelectImage from './SelectImage';
 import SelectInvites from './SelectInvites';
+import ChatInfoItem from '../chatView/ChatInfoItem'
 import SelectedInvites from './SelectedInvites';
 import NewGroupName from './NewGroupName';
-
+import NewGroupSettings from './NewGroupSettings';
+import PromptDates from './PromptDates';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 
 let botMessage = {
@@ -37,7 +41,7 @@ let botMessage = {
 
 class EventWiz extends Component {
   constructor(props) {
-    super();
+    super(props);
     // EventWizHandlers.launch();
     // Meteor.call('initEventWiz');
     this.state = {
@@ -51,16 +55,20 @@ class EventWiz extends Component {
     this.props.pushMessage(EventWizHelpers.initMsg(firstName));
   }
 
+  changeContacts(){
+    Actions.chooseContacts();
+  }
 
-  renderSelectedInvites(contacts){
-    if (contacts.length === 0) return <View/>
-    const {
-      infoContainer,
-      iconContainer
-    } = styles;
+
+  renderSelectedInvites(){
+    // if (contacts.length === 0) return <View/>
+    // const {
+    //   infoContainer,
+    //   iconContainer
+    // } = styles;
     return (
       <SelectedInvites
-        contacts={contacts}
+        // contacts={contacts}
         newGroupName={this.props.newGroupName}
       />
     )
@@ -86,6 +94,14 @@ class EventWiz extends Component {
             passedData={this.state.contacts}
           />
         ) 
+      case EventStatus.NEW_GROUP_SETTINGS:
+        return (
+          <NewGroupSettings/>
+        ) 
+      case EventStatus.PROMPT_DATES:
+        return (
+          <PromptDates/>
+        ) 
       default:
         console.log(this.props.status);
         return (
@@ -108,12 +124,12 @@ class EventWiz extends Component {
 
         <View style={outerContainer}>
           <EventWizNavBar />
-          {this.renderSelectedInvites(this.props.contacts)}
+          <SelectedInvites />
           <Border shadow/>          
           <ChatView 
             chatData={this.getDataSource()}
           />
-          <Border/>
+          <Border />
           {this.renderInputContainer()}
           <KeyboardSpacer/>
         </View>
@@ -142,8 +158,8 @@ const styles = {
 
 const mapStateToProps = (state) => {
   const { userId, displayName, phoneNumber } = state.user;
-  const { status, messages, eventName, contacts, newGroupName } = state.eventInfo;
-  return { userId, displayName, status, messages, eventName, contacts, newGroupName };
+  const { status, messages, eventName, newGroupName } = state.eventInfo;
+  return { userId, displayName, status, messages, eventName, newGroupName };
 };
 
 export default connect(mapStateToProps, { pushMessage, resetEventInfo, setStatusLoading })(EventWiz);

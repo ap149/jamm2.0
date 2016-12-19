@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {
   PUSH_MESSAGE,
   UPDATE_STATUS,
@@ -6,8 +7,9 @@ import {
   UPDATE_EVENT_NAME,
   ADD_ICON,
   TOGGLE_CONTACT,
+  SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
-  PROMPT_DATES
+  PROMPT_DATES,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -25,7 +27,7 @@ const INITIAL_STATE = {
 
 toggleUser = function(contacts, contactIndex){
   const index = contacts.indexOf(contactIndex);
-  let newContacts = contacts;
+  let newContacts = contacts.slice();
   if (index == -1){
     newContacts.push(contactIndex);
     return newContacts;
@@ -53,7 +55,7 @@ export default (state = INITIAL_STATE, action) => {
         {newGroupName: false}
       );    
     case PUSH_MESSAGE:
-      let newMessageArray = state.messages;
+      let newMessageArray = state.messages.slice();
       newMessageArray.unshift(action.payload);
       return Object.assign(
         {},
@@ -88,11 +90,18 @@ export default (state = INITIAL_STATE, action) => {
         {iconName: action.payload}
       );
     case TOGGLE_CONTACT:
-      let newContacts = toggleUser(state.contacts, action.payload);
+      const newContacts = _.xor(state.contacts, [action.payload]);
+      console.log(newContacts);
       return Object.assign(
         {},
         state,
         {contacts: newContacts}
+      );
+    case SET_CONTACTS_SELECTED:
+      return Object.assign(
+        {},
+        state,
+        {contactsSelected: true}
       );
     case UPDATE_NEW_GROUP_NAME:
       return Object.assign(

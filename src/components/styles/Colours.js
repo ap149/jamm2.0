@@ -1,7 +1,7 @@
 const Colours = {
   note: '#777',
   light: '#fff',
-  iconShade: '#ccc',
+  iconShade: '#aaa',
   navBarBack: '#f7f7f7',
   greyBack: '#eee',
   app: '#00D1AD',

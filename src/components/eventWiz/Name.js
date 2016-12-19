@@ -46,6 +46,7 @@ class Name extends Component {
       <ChatInput
         placeholder="e.g. Dinner, Birthday Drinks, Coffee..."
         autoCapitalize={true}
+        autoFocus
         icon="arrow-circle-right"
         value={this.state.inputText}
         onChangeText={this.onEnterText.bind(this)}

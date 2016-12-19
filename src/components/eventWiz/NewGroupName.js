@@ -24,20 +24,20 @@ class EventNewGroupName extends Component {
 
   onSend(){
     // setTimeout(function() {
-    const groupNameMsg = EventWizHelpers.createUserMessage(this.props.userId, `Group saved as '${this.state.inputText}'`);
-    // this.props.pushMessage(msg);
-    // }, EventWizHelpers.CHATBOT_DELAY);    
-    this.props.updateNewGroupName(this.state.inputText);
+    const msg1 = this.state.inputText;
+    this.props.pushMessage(EventWizHelpers.createUserMessage(this.props.userId, msg1));
     Keyboard.dismiss();
     this.props.updateStatus(false);
-    const _this = this;
-    setTimeout(function() {
-      _this.props.updateStatus(EventStatus.PROMPT_DATES);      
-    }, EventWizHelpers.CHATBOT_DELAY);
+    Helpers.delayShort()
+    .then(() => {
+      const msg2 = `Done. Everyone in this group will be able to use it to arrange other events. You are the only admin. Do you want to change any group settings or skip to choose dates?`;
+      this.props.pushMessage(EventWizHelpers.createBotMessage(msg2));
+      this.props.updateStatus(EventStatus.NEW_GROUP_SETTINGS);      
+    });
   }
 
   skip(){
-    console.log(this.props.passedData);
+      this.props.updateStatus(EventStatus.PROMPT_DATES);
   }
 
   render(){
@@ -67,7 +67,7 @@ const mapStateToProps = (state) => {
   const { userId } = state.user;
   const { contacts } = state.eventInfo;
 
-  return { contacts };
+  return { userId, contacts };
 };
 
 export default connect(mapStateToProps, { updateNewGroupName, updateStatus, pushMessage })(EventNewGroupName);

@@ -27,7 +27,7 @@ export const delayDefault = () => {
 export const createBotMessage = (body) => {
   return {
     type: 'text',
-    fromType: 'user',
+    fromType: 'bot',
     fromObj: {userId: null},
     body: body,
   }
@@ -38,6 +38,15 @@ export const createUserMessage = (userId, body) => {
     type: 'text',
     fromType: 'user',
     fromObj: {userId: userId},
+    body: body,
+  }
+}
+
+export const createAutoMessage = (body) => {
+  return {
+    type: 'text',
+    fromType: 'auto',
+    fromObj: {userId: null},
     body: body,
   }
 }

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import moment from 'moment';
 import ChatBubble from './ChatBubble';
+import { ChatAutoMsg } from './ChatAutoMsg';
 import { Colours } from '../styles';
 
 // const offline = true;
@@ -37,7 +38,6 @@ class ChatView extends Component {
     return (
       <ChatBubble 
         fromUser={item.fromObj.userId === this.props.userId}
-        index={item.index}
         timestamp={this.getTimeStamp(item.createdAt)}
       >
         {item.body}
@@ -45,10 +45,18 @@ class ChatView extends Component {
     );
   }
 
+  renderChatAutoMsg(item){
+    return (
+      <ChatAutoMsg
+        body={item.body}
+      />
+    )
+  }
+
   handleRender(item) {
     switch (item.fromType){
       case 'auto':
-        return <Text>auto message</Text>;
+        return this.renderChatAutoMsg(item);
       default:
         return this.renderChatBubble(item);
     }

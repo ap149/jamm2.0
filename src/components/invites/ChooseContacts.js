@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
-import { toggleContact, resetEventInfo, updateStatus, pushMessage } from '../../actions';
+import { toggleContact, setContactsSelected, resetEventInfo, updateStatus, pushMessage } from '../../actions';
 import { Actions } from 'react-native-router-flux';
 import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
@@ -31,7 +31,7 @@ class ChooseContacts extends Component {
 
   componentWillMount(){
     let phoneContacts = [];
-    let flattedContacts = [];
+    let flattenedContacts = [];
     Contacts.getAll((err, contacts) => {
       if(err && err.type === 'permissionDenied'){
         // x.x
@@ -55,20 +55,18 @@ class ChooseContacts extends Component {
         for (i=0; i < phoneContacts.length; i++){
           const contact = phoneContacts[i];
           for (j=0; j < contact.phoneNumbers.length; j++){
-            const selected = (this.props.contacts.indexOf(count) != -1);
             const contactObj = {
               displayName: contact.displayName,
               phoneNumber: contact.phoneNumbers[j].number,
-              index: count,
-              selected: selected
+              index: count
             }
-            flattedContacts.push(contactObj);
+            flattenedContacts.push(contactObj);
             count ++;
           }
         }
-        this.setState({flattedContacts});
+        this.setState({flattenedContacts});
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});    
-        this.setState({allContacts: ds.cloneWithRows(flattedContacts)});
+        this.setState({allContacts: ds.cloneWithRows(flattenedContacts)});
       }
     });         
   }
@@ -79,10 +77,16 @@ class ChooseContacts extends Component {
   }
 
   done(){
-    const msg = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
-    this.props.pushMessage(msg);
-    this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
-    Actions.pop({refresh: {contacts: this.props.contacts}});   
+    const msg1 = EventWizHelpers.createAutoMessage(`${this.props.contacts.length} contact${this.props.contacts.length > 1 ? 's' : ''} invited`);
+    this.props.pushMessage(msg1); 
+    if (!this.props.contactsSelected){
+      const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
+      this.props.pushMessage(msg2);
+      this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+      this.props.setContactsSelected();
+    }
+    Actions.pop();
+    // Actions.pop({refresh: {contacts: this.props.contacts}});   
   }
 
   toggleContact(contactIndex){
@@ -92,19 +96,21 @@ class ChooseContacts extends Component {
 
   updateList(){
     const contacts = this.props.contacts;
-    this.state.flattedContacts.map(function(obj){
+    this.state.flattenedContacts.map(function(obj){
       obj.selected = (contacts.indexOf(obj.index) != -1);
     });
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});    
-    this.setState({allContacts: ds.cloneWithRows(this.state.flattedContacts)});    
+    this.setState({allContacts: ds.cloneWithRows(this.state.flattenedContacts)});    
   }
 
   viewAll(){
     this.setState({viewSelected: false});
+    Actions.refresh();
   }
 
   viewSelected(){
     this.setState({viewSelected: true});
+    Actions.refresh();    
   }
 
   renderTick(item){
@@ -112,15 +118,12 @@ class ChooseContacts extends Component {
       iconContainer
     } = styles;
 
-    if (item.selected){
-      return (
-        <View style={iconContainer}>
-          <Icon name='check' size={16} color={Colours.app}/>
-        </View>
-      ) 
-    } else {
-      return <View/>
-    }
+    return (
+      <View style={iconContainer}>
+        <Icon name='check' size={16} color={Colours.app}/>
+      </View>
+    ) 
+
   }
 
   renderDelete(item){
@@ -136,6 +139,7 @@ class ChooseContacts extends Component {
   }
 
   renderSelectedItems(item){
+    if (!this.isItemSelected(item)) return <View/>;
     const {
       outerContainer,
       innerContainer,
@@ -143,24 +147,25 @@ class ChooseContacts extends Component {
       infoContainer,
     } = styles;
 
-    if (item.selected){
-      return (
-        <View style={outerContainer}>
-          <View 
-            style={innerContainer}
-          >
-            <View style={infoContainer}>
-              <Text style={Fonts.itemH2}>{item.displayName}</Text>
-              <Text style={Fonts.itemNote}>{item.phoneNumber}</Text>
-            </View>
-            {this.renderDelete(item)}
+    return (
+      <View style={outerContainer}>
+        <View 
+          style={innerContainer}
+        >
+          <View style={infoContainer}>
+            <Text style={Fonts.itemH2}>{item.displayName}</Text>
+            <Text style={Fonts.itemNote}>{item.phoneNumber}</Text>
           </View>
-          <Border/>
+          {this.renderDelete(item)}
         </View>
-      )
-    } else {
-      return <View/>
-    }         
+        <Border/>
+      </View>
+    )
+        
+  }
+
+  isItemSelected(item){
+    return this.props.contacts.indexOf(item.index) != -1;
   }
 
   renderAllItems(item){
@@ -171,17 +176,19 @@ class ChooseContacts extends Component {
       infoContainer,
     } = styles;
 
+    const isSelected = this.isItemSelected(item);
+
     return (
       <View style={outerContainer}>
         <TouchableOpacity 
-          style={item.selected ? innerContainerHighlighted : innerContainer}
+          style={isSelected ? innerContainerHighlighted : innerContainer}
           onPress={() => this.toggleContact(item.index)}
         >
           <View style={infoContainer}>
             <Text style={Fonts.itemH2}>{item.displayName}</Text>
             <Text style={Fonts.itemNote}>{item.phoneNumber}</Text>
           </View>
-          {this.renderTick(item)}
+          {isSelected ? this.renderTick() : <View/>}
         </TouchableOpacity>
         <Border/>
       </View>
@@ -226,7 +233,7 @@ class ChooseContacts extends Component {
           <NavTextButton
             onPress={this.cancel.bind(this)}
             label="Cancel"
-            disabled={false}
+            disabled={this.props.contactsSelected}
           />                  
           <View style={midContainer}>
             {this.renderNavButton()}
@@ -240,7 +247,7 @@ class ChooseContacts extends Component {
         <ListView
           enableEmptySectionHeaders          
           dataSource={this.state.allContacts}
-          renderRow={(item) => this.renderItem(item)}
+          renderRow={(item) => this.state.viewSelected ? this.renderSelectedItems(item) : this.renderAllItems(item)}
         />
       </View>  
     )
@@ -284,8 +291,14 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts } = state.eventInfo;
-  return { contacts };
+  const { contacts, contactsSelected } = state.eventInfo;
+  return { contacts, contactsSelected };
 };
 
-export default connect(mapStateToProps, { toggleContact, resetEventInfo, updateStatus, pushMessage })(ChooseContacts);
+export default connect(mapStateToProps, { 
+  toggleContact,
+  setContactsSelected,
+  resetEventInfo,
+  updateStatus,
+  pushMessage
+})(ChooseContacts);

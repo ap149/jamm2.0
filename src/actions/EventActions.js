@@ -8,6 +8,7 @@ import {
   UPDATE_EVENT_NAME,
   ADD_ICON,
   TOGGLE_CONTACT,
+  SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
   PROMPT_DATES
 } from './types';
@@ -50,6 +51,12 @@ export const toggleContact = (contactIndex) => {
   return {
     type: TOGGLE_CONTACT,
     payload: contactIndex
+  }
+}
+
+export const setContactsSelected = () => {
+  return {
+    type: SET_CONTACTS_SELECTED
   }
 }
 

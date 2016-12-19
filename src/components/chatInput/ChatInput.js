@@ -26,7 +26,7 @@ class ChatInput extends Component {
           placeholder={this.props.placeholder}
           value={this.props.value}
           onChangeText={this.props.onChangeText}
-          autoFocus={true}
+          autoFocus={this.props.autoFocus}
           autoCapitalze={this.props.autoCapitalize ? this.props.autocapitalize : "sentences"}
           multiline={!this.props.singleLine}
         />
