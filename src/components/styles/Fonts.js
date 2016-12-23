@@ -9,11 +9,12 @@ const Fonts = {
   navHeader: {
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 20 
+    lineHeight: 20,
+    color: Colours.navHeader,
   },
   navSubheader: {
     fontSize: 12,
-    color: Colours.subHeader,
+    color: Colours.navSubheader,
     lineHeight: 18
   },
   itemH1: {

@@ -43,7 +43,7 @@ class ChatInfoItem extends Component {
 const styles = {
   infoContainer: {
     flexDirection: 'row',
-    // backgroundColor: Colours.navBarBack
+    backgroundColor: Colours.navBarBack
   },
 
   iconContainer: {

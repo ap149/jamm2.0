@@ -16,3 +16,4 @@ export const TOGGLE_CONTACT = 'toggle_contact';
 export const SET_CONTACTS_SELECTED = 'set_contacts_selected';
 export const UPDATE_NEW_GROUP_NAME = 'update_new_group_name';
 export const PROMPT_DATES = 'prompt_dates';
+export const TOGGLE_DATE = 'toggle_date';

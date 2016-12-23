@@ -21,7 +21,7 @@ const NavBarContainer = ({children}) => {
 
 const styles = {
   outerContainer: {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: Colours.navBarBack,
     paddingTop: 21,
     minHeight: 47,
   },

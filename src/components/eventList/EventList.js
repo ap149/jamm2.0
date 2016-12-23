@@ -45,7 +45,7 @@ class EventList extends Component {
           newButton={true}
         />
         <Button
-          onPress={this.logout}
+          onPress={this.logout.bind(this)}
           title="Logout"
           color={Colours.app}          
         />

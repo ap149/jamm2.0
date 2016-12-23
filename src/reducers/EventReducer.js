@@ -10,6 +10,7 @@ import {
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
   PROMPT_DATES,
+  TOGGLE_DATE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -22,7 +23,8 @@ const INITIAL_STATE = {
   status: 'init',
   contacts: [],
   contactsSelected: false,
-  newGroupName: false
+  newGroupName: false,
+  dates: []
 };
 
 toggleUser = function(contacts, contactIndex){
@@ -115,6 +117,37 @@ export default (state = INITIAL_STATE, action) => {
         state,
         {status: 'prompt_dates'}
       );    
+    case TOGGLE_DATE:
+      const daysFromToday = action.payload;
+      let newDates = state.dates.slice();
+      let index = -1;
+      for (i=0; i<newDates.length; i++){
+        if (newDates[i].daysFromToday == daysFromToday){
+          index = newDates[i].startTime === null ? i : -1;
+          break;
+        }
+      }
+      if (index != -1){
+        newDates.splice(i,1);  
+      } else {
+        let dateObj = {};
+        dateObj.daysFromToday = daysFromToday;
+        dateObj.startTime = null;
+        dateObj.endTime = null;
+        newDates.push(dateObj);
+      }
+      newDates = _.orderBy(newDates, ['daysFromToday'], ['asc']);
+      let counter = 0;
+      newDates.map(function(obj){
+        obj.index = counter;
+        counter ++;
+      })
+      // console.log(newDates);
+      return Object.assign(
+        {},
+        state,
+        {dates: newDates}
+      );      
     default:
       return state;
   }

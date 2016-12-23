@@ -2,11 +2,15 @@ const Colours = {
   note: '#777',
   light: '#fff',
   iconShade: '#aaa',
-  navBarBack: '#f7f7f7',
+  navBarBack: '#eee',
+  navHeader: '#000',
+  navSubheader: '#666',
   greyBack: '#eee',
-  app: '#00D1AD',
+  darkBack: '#000A08',
+  // app: '#00D1AD',
+  app: '#00CFC5',
   inactive: '#eee',
-  appDisabled: '#98CFAB',
+  appDisabled: '#ddd',
   borderLight: '#444',
   subHeader: '#666'
 };

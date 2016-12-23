@@ -9,6 +9,7 @@ import SideMenu from './components/sideMenu/SideMenu';
 import EventList from './components/eventList/EventList';
 import CalendarList from './components/calendarList/CalendarList';
 import EventWiz from './components/eventWiz/EventWiz';
+import CalendarPicker from './components/calendarPicker/CalendarPicker';
 import ChooseContacts from './components/invites/ChooseContacts';
 import { Colours, Fonts } from './components/styles';
 
@@ -36,8 +37,9 @@ const RouterComponent = () => {
       </Scene>           
       <Scene key='calendarList' component={CalendarList} hideNavBar={true}/>
       <Scene key='eventWiz'>
+        <Scene key="calendarPicker" direction="vertical" hideNavBar={true} component={CalendarPicker}  panHandlers={null}/>      
         <Scene key="eventWizChat" direction="vertical" hideNavBar={true} component={EventWiz}  panHandlers={null}/>
-        <Scene key="chooseContacts" direction="vertical" hideNavBar={true} component={ChooseContacts}  panHandlers={null}/>
+        <Scene key="chooseContacts" direction="vertical" hideNavBar={true} component={ChooseContacts}  panHandlers={null}/>        
       </Scene>
     </Router>
   );

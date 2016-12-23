@@ -10,7 +10,8 @@ import {
   TOGGLE_CONTACT,
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
-  PROMPT_DATES
+  PROMPT_DATES,
+  TOGGLE_DATE
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -70,6 +71,13 @@ export const updateNewGroupName = (name) => {
 export const promptDates = () => {
   return {
     type: PROMPT_DATES
+  }
+}
+
+export const toggleDate = (daysFromNow) => {
+  return {
+    type: TOGGLE_DATE,
+    payload: daysFromNow
   }
 }
 
