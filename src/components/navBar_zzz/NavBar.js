@@ -19,7 +19,7 @@ class NavBar extends Component {
   }
 
   _cancel() {
-    Actions.pop();
+    Actions.pop(); 
   }
 
   _newEvent(){

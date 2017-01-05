@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Day from './Day';
+import { Colours } from '../styles';
 
 class CalendarMatrix extends Component {
 
@@ -11,7 +12,7 @@ class CalendarMatrix extends Component {
     const DAYS_IN_MONTH = moment(DISPLAY_MONTH).daysInMonth();
     const ROWS_IN_MONTH = Math.ceil(DAYS_IN_MONTH - (8 - STARTING_DAY)) / 7 + 1;
     let
-      i, j, day, daysFromToday,
+      i, j, day, daysFromToday, date,
       daysRow = [],
       rows = [],
       counter = 0;
@@ -22,10 +23,12 @@ class CalendarMatrix extends Component {
       for (j=1; j<8 ; j++){
         day = -STARTING_DAY + 7 * (i) + j + 1;
         daysFromToday = moment(DISPLAY_MONTH).add(day - 1, 'days').diff(moment().startOf('day'), 'days');
+        date = moment().startOf('days').add(daysFromToday, 'days');
         if (day < 1 || day > DAYS_IN_MONTH){
           daysRow.push(<Day
             key={counter}
-            date=''
+            day=''
+            date={date}
             month={MONTH}
             year={YEAR}
             daysFromToday={daysFromToday}
@@ -34,7 +37,8 @@ class CalendarMatrix extends Component {
         } else {
           daysRow.push(<Day
             key={counter}
-            date={day}
+            day={day}
+            date={date}
             month={MONTH}
             year={YEAR}
             daysFromToday={daysFromToday}
@@ -57,7 +61,7 @@ class CalendarMatrix extends Component {
     } = styles;
 
     return (
-      <View>
+      <View style={{backgroundColor: Colours.shadedBack}}>
         <View style={dowOuterContainer}>
           <View style={dowInnerContainer}><Text style={dowText}>M</Text></View>
           <View style={dowInnerContainer}><Text style={dowText}>T</Text></View>
@@ -75,8 +79,7 @@ class CalendarMatrix extends Component {
 
 const styles = {
   dowOuterContainer: {
-    flexDirection: 'row'
-
+    flexDirection: 'row',
   },
 
   dowInnerContainer: {
@@ -89,7 +92,7 @@ const styles = {
 
   dowText: {
     fontSize: 12,
-    color: '#888',
+    // color: '#fff',
     fontWeight: '500'
   }
 

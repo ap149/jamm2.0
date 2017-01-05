@@ -13,6 +13,29 @@ class ChatInfoItem extends Component {
     // LayoutAnimation.spring();
   }
 
+  renderButton(){
+    const {
+      itemTextButton,
+      textButtonText,
+      itemArrowButton
+    } = styles;
+
+    if (this.props.buttonText){
+      return (
+        <View style={itemTextButton}>
+          <Text style={textButtonText}>{this.props.buttonText}</Text>
+        </View>
+      )   
+    }
+    if (this.props.buttonArrow){
+      return (
+        <View style={itemArrowButton}>
+          <Icon name="chevron-right" size={20} color={Colours.iconShade}/>
+        </View>
+      )         
+    }
+  }
+
   render(){
     const {
       infoContainer,
@@ -23,17 +46,15 @@ class ChatInfoItem extends Component {
     } = styles;
     return (
       <View>
-        <View style={infoContainer}>
+        <TouchableOpacity style={infoContainer} onPress={this.props.onPress}>
           <View style={iconContainer}>
             <Icon name={this.props.iconName} size={16} color={Colours.iconShade}/>
           </View>
           <View style={inviteInfoContainer}>
             {this.props.children}
           </View>
-          <TouchableOpacity style={itemTextButton} onPress={this.props.onPress}>
-            <Text style={textButtonText}>{this.props.buttonText}</Text>
-          </TouchableOpacity>             
-        </View>
+          {this.renderButton()}          
+        </TouchableOpacity>
         <Border />
       </View>
     )
@@ -43,7 +64,7 @@ class ChatInfoItem extends Component {
 const styles = {
   infoContainer: {
     flexDirection: 'row',
-    backgroundColor: Colours.navBarBack
+    backgroundColor: Colours.appMain
   },
 
   iconContainer: {
@@ -68,8 +89,13 @@ const styles = {
   },
 
   textButtonText: {
-    color: Colours.app,
+    color: '#fff',
     fontSize: 12    
+  },
+
+  itemArrowButton: {
+    justifyContent: 'center',
+    paddingHorizontal: 12
   }
 }
 

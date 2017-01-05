@@ -24,20 +24,20 @@ class AvatarIcon extends Component {
 
 const styles = {
   outerContainer: {
-    height: 50,
-    width: 50,
+
     justifyContent: 'center',
     alignItems: 'center',
     padding: 2,
+
   },
 
   innerContainer: {
-    height: 40,
-    width: 40,
+    height: 36,
+    width: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: Colours.app    
+    borderRadius: 18,
+    backgroundColor: Colours.app,    
   }
 }
 

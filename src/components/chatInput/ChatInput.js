@@ -47,6 +47,7 @@ const styles = {
     minHeight: 42,
     flexDirection: 'row',
     alignItems: 'flex-end',
+    // backgroundColor: '#f4f4f4'
   },
 
   inputStyle: {

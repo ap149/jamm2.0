@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { TouchableOpacity, LayoutAnimation, View, Text } from 'react-native';
 import { connect } from 'react-redux';
@@ -6,34 +7,46 @@ import ChatInfoItem from '../chatView/ChatInfoItem'
 import { Border } from '../common';
 import { Colours, Fonts } from '../styles';
 
-class SelectedInvites extends Component {
+class SelectedDates extends Component {
 
   componentWillUpdate(){
     LayoutAnimation.spring();
   }
 
-  changeContacts(){
-    Actions.chooseContacts();
+  changeDates(){
+    console.log("change dates");
+     Actions.calendarPicker();    
+  }
+
+  renderTime(){
+    if (!this.props.dates[0].startTime) return <View/>
+    const startTime = moment(this.props.dates[0].startTime, "h:mm A").format("h:mm A");
+    if (!this.props.dates[0].endTime){
+      return <Text style={Fonts.chatInfoSubheader}>{startTime}</Text>
+    }
+    const endTime = moment(this.props.dates[0].endTime, "h:mm A").format("h:mm A");
+    return <Text style={Fonts.chatInfoSubheader}>{startTime} - {endTime}</Text>
   }
 
   renderSelectedInfo(){
-    if (this.props.contacts.length == 1 || (!this.props.newGroupName)){
-      return (
-        <Text style={Fonts.chatInfoHeader}>{this.props.contacts.length} contacts invited</Text>
-      )
-    }
-    if ((this.props.contacts.length > 1) && this.props.newGroupName){
+    if (this.props.dates.length == 1){
+      console.log(this.props.dates[0].startTime);
       return (
         <View>
-          <Text style={Fonts.chatInfoHeader}>{this.props.newGroupName}</Text>
-          <Text style={Fonts.chatInfoSubheader}>You plus {this.props.contacts.length} others</Text>
+          <Text style={Fonts.chatInfoHeader}>{moment().add(this.props.dates[0].daysFromNow, 'days').format('ddd D MMM')}</Text>
+          {this.renderTime()}
         </View>
-      )      
+      )
     }
+    return (
+      <View>
+        <Text style={Fonts.chatInfoSubheader}>{this.props.dates.length} dates suggested</Text>
+      </View>
+    )    
   }
 
   render(){
-    if (this.props.contacts.length < 1) {
+    if (!this.props.datesSelected) {
       return <View/>
     }
     const {
@@ -46,9 +59,9 @@ class SelectedInvites extends Component {
     const _this = this;
     return (
       <ChatInfoItem
-        iconName={this.props.contacts.length === 1 ? 'user' : 'users'}
+        iconName='clock-o'
         buttonArrow
-        onPress={this.changeContacts.bind(this)}
+        onPress={this.changeDates.bind(this)}
       >
         {this.renderSelectedInfo()}
       </ChatInfoItem>
@@ -102,8 +115,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, newGroupName } = state.eventInfo;
-  return { contacts, newGroupName };
+  const { dates, datesSelected } = state.eventInfo;
+  return { dates, datesSelected };
 };
 
-export default connect(mapStateToProps, { })(SelectedInvites);
+export default connect(mapStateToProps, { })(SelectedDates);

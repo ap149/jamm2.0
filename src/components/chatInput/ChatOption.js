@@ -6,7 +6,7 @@ import { Colours } from '../styles';
 class ChatOption extends Component {
 
   componentWillMount(){
-    LayoutAnimation.spring();
+    // LayoutAnimation.spring();
   }
 
   iconColour(){
@@ -64,7 +64,7 @@ const styles = {
   },
 
   innerContainerDefault: {
-    borderColor: Colours.app,
+    borderColor: Colours.appMain,
     borderWidth: 1,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -82,7 +82,7 @@ const styles = {
   },
 
   textDefault: {
-    color: Colours.app,
+    color: Colours.appMain,
     fontSize: 14
   },
 

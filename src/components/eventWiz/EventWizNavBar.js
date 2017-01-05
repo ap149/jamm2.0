@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Image, LayoutAnimation } from 'react-native';
+import { View, TouchableOpacity, Text, Image, LayoutAnimation, Alert } from 'react-native';
 import Meteor from 'react-native-meteor';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { resetEventInfo } from '../../actions';
-import { NavBarContainer } from '../navBar/NavBarContainer';
+import NavBar  from '../navBar/NavBar';
 import { NavTextButton } from '../navBar/NavTextButton';
 import AvatarIcon from '../avatar/AvatarIcon';
 import { Colours, Fonts } from '../styles';
@@ -12,15 +12,32 @@ import { Border } from '../common';
 
 class EventWizNavBar extends Component {
 
-  componentWillUpdate() {
-    LayoutAnimation.spring();
+  // componentWillUpdate() {
+  //   LayoutAnimation.spring();
+  // }
+
+  confirmCancel(){
+    Actions.pop();
+    this.props.resetEventInfo();  
   }
 
-  cancel() {
+  pressCancel() {
     // console.log(this.props.messages);
     // Meteor.call('resetEventWiz');            
-    Actions.pop();    
-    this.props.resetEventInfo();    
+    // Actions.pop();
+    if (this.props.contactsSelected){
+      let _self = this;
+      Alert.alert(
+        'Confirm cancel',
+        null,
+        [
+          {text: "Don't cancel", onPress: () => console.log('Cancel Pressed!')},
+          {text: "Yes", onPress: () => _self.confirmCancel()},
+        ]
+      ); 
+    } else {
+      this.confirmCancel();
+    } 
   }
   
   editInfo(){
@@ -55,7 +72,7 @@ class EventWizNavBar extends Component {
       return (
         <View style={eventInfoContainer}>
           <Text style={Fonts.navHeader}>{this.props.eventName}</Text>
-          <Text style={Fonts.navSubheader}>arranged by {this.props.arrangedBy}</Text>
+          
         </View>        
       )
     } else {
@@ -63,14 +80,14 @@ class EventWizNavBar extends Component {
     }
   }
 
-  renderEditButton(){
+  renderMain(){
     if (this.props.eventName){
       return (
-        <NavTextButton
-          onPress={this.editInfo.bind(this)}
-          label="Edit"        
-        />        
-      )      
+        <View style={styles.midContainer}>
+          {this.renderGraphic()}
+          {this.renderEventInfo()}
+        </View>
+      )
     }
   }
 
@@ -80,17 +97,13 @@ class EventWizNavBar extends Component {
     } = styles;
 
     return (
-      <NavBarContainer>
-        <NavTextButton
-          onPress={this.cancel.bind(this)}
-          label="Cancel"
-        />
-        <View style={midContainer}>
-          {this.renderGraphic()}
-          {this.renderEventInfo()}
-        </View>
-        {this.renderEditButton()}
-      </NavBarContainer>
+      <NavBar
+        buttonLeftPress={this.pressCancel.bind(this)}
+        buttonLeftLabel="Cancel"
+        buttonRightLabel={this.props.eventName ? 'Change' : false}
+      >
+        {this.renderMain()}
+      </NavBar>
     )
   }
 }
@@ -106,13 +119,13 @@ const styles = {
     paddingLeft: 7,
     paddingRight: 14,
     paddingVertical: 4,
-    // justifyContent: 'space-between'    
+    justifyContent: 'center'    
   }
 }
 
 const mapStateToProps = (state) => {
-  const { messages, eventName, arrangedBy, imgUrl, iconName } = state.eventInfo;
-  return { messages, eventName, arrangedBy, imgUrl, iconName };
+  const { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected } = state.eventInfo;
+  return { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected };
 };
 
 export default connect(mapStateToProps, { resetEventInfo })(EventWizNavBar);

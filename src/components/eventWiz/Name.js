@@ -32,9 +32,9 @@ class Name extends Component {
     const _this = this;
     Helpers.delayDefault()
     .then(() => {
-      msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.chooseImageMessage(eventName));
+      msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_CONTACTS);
       _this.props.pushMessage(msg2);
-      _this.props.updateStatus(EventStatus.IMAGE);      
+      _this.props.updateStatus(EventStatus.INVITES);      
       Keyboard.dismiss();
     })
   }

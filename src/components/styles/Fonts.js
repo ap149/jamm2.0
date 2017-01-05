@@ -36,7 +36,6 @@ const Fonts = {
   itemH3: {
     fontSize: 14,
     lineHeight: 20,
-
   },
   itemH4: {
     fontSize: 12,
@@ -55,6 +54,22 @@ const Fonts = {
   itemSubheader: {
     fontSize: 14,
   },
+  chatInfoHeader: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    lineHeight: 20,
+    color: '#fff'
+  },
+  chatInfoSubheader: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#fff'
+  },
+  chatInfoNote: {
+    fontSize: 12,
+    lineHeight: 20,
+    color: '#fff'
+  }  
 };
 
 export { Fonts };

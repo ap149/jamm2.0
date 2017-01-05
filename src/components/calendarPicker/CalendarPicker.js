@@ -1,13 +1,15 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { setDatesSelected, clearDates, updateStatus } from '../../actions';
 import { Actions } from 'react-native-router-flux';
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { NavBarContainer } from '../navBar/NavBarContainer';
+import * as Helpers from '../common/Helpers';
+import NavBar from '../navBar/NavBar';
 import { NavTextButton } from '../navBar/NavTextButton';
 import CalendarMatrix from './CalendarMatrix';
 import DateOption from './DateOption';
-import { Border } from '../common';
+import { Border, Note } from '../common';
 import { Colours } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome';          
 
@@ -20,12 +22,21 @@ class CalendarPicker extends Component {
   }
 
   cancel(){
-    this.setState({monthAdj: this.state.monthAdj + 1});
-    // Actions.pop();
+    this.props.clearDates();
+    Actions.pop();
   }
 
   done(){
     Actions.pop();
+    Helpers.delayDefault()
+    .then(() => {        
+      // const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
+      // this.props.pushMessage(msg2);
+      this.props.updateStatus(false);
+      this.props.setDatesSelected();
+    })    
+    // this.props.setDatesSelected();
+    // this.props.updateStatus(false);           
   }
 
   monthBack(){
@@ -40,6 +51,18 @@ class CalendarPicker extends Component {
     })
   }
 
+  renderNote(){
+    if (this.props.dates.length > 0) {
+      return <View/>
+    } else {
+      return (
+        <Note>
+          Pick a date or suggest as many options as you like
+        </Note>
+      )
+    }
+  }
+
   renderDateOptions(){
     const dates = this.props.dates;
     let dateOptions = [];
@@ -49,10 +72,11 @@ class CalendarPicker extends Component {
           key={i}
           index={dates[i].index}
           daysFromToday={dates[i].daysFromToday}
+          startTime={dates[i].startTime}
+          endTime={dates[i].endTime}
         />
       )
     }
-    console.log(dateOptions);
     return (
       dateOptions
     );
@@ -69,27 +93,24 @@ class CalendarPicker extends Component {
 
     return (
       <View>
-        <NavBarContainer>
-          <NavTextButton
-            onPress={this.cancel.bind(this)}
-            label="Cancel"
-          />                  
-          <View style={midContainer}>
-            
-          </View>
-          <NavTextButton
-            onPress={this.done.bind(this)}
-            label="Done"
-            // disabled={this.props.contacts.length === 0}
-          />                            
-        </NavBarContainer>
+        <NavBar
+          buttonLeftLabel={this.props.datesSelected ? ' ' : 'Cancel'}
+          buttonLeftPress={this.cancel.bind(this)}
+          buttonLeftFixed={true}
+          buttonRightLabel="Done"
+          buttonRightPress={this.done.bind(this)}
+          buttonRightDisabled={this.props.dates.length == 0}
+          buttonRightFixed={true}
+          title="Choose dates"
+        >          
+        </NavBar>
         <View style={calendarHeader}>
           <TouchableOpacity
             style={calendarNavIcon}
             disabled={this.state.monthAdj === 0}
             onPress={this.monthBack.bind(this)}
           >
-            <Icon name='chevron-left' size={24} color={this.state.monthAdj === 0 ? Colours.appDisabled : Colours.app} />
+            <Icon name='chevron-circle-left' size={24} color={this.state.monthAdj === 0 ? Colours.disabled : '#fff'} />
           </TouchableOpacity>
           <View style={monthLabelContainer}>
             <Text style={monthLabel}>{moment().add(this.state.monthAdj, 'M').format('MMM YYYY')}</Text>
@@ -98,15 +119,19 @@ class CalendarPicker extends Component {
             style={calendarNavIcon}
             onPress={this.monthForward.bind(this)}
           >
-            <Icon name='chevron-right' size={24} color={Colours.app} />
+            <Icon name='chevron-circle-right' size={24} color='#fff' />
           </TouchableOpacity>
         </View>
-        <Border />
+        <Border/>
         <CalendarMatrix
+          style={{paddingBottom: 10}}
           displayMonth={moment().add(this.state.monthAdj, 'M').startOf('month')}
         />
-        <Border />
-        {this.renderDateOptions()}
+        <Border/>
+        {this.renderNote()}        
+        <ScrollView>
+          {this.renderDateOptions()}
+        </ScrollView>
       </View>
     )
   }
@@ -121,7 +146,8 @@ const styles = {
   },
 
   calendarHeader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: Colours.appMain
   },
 
   calendarNavIcon: {
@@ -138,14 +164,15 @@ const styles = {
   },
 
   monthLabel: {
+    color: '#fff',
     fontSize: 16,
-    fontWeight: '500'
+    // fontWeight: 'bold',
   }
 }
 
 const mapStateToProps = (state) => {
-  const { dates } = state.eventInfo;
-  return { dates };
+  const { dates, datesSelected } = state.eventInfo;
+  return { dates, datesSelected };
 };
 
-export default connect(mapStateToProps, {  })(CalendarPicker);
+export default connect(mapStateToProps, { setDatesSelected, clearDates, updateStatus })(CalendarPicker);

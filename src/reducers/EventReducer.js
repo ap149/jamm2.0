@@ -10,7 +10,12 @@ import {
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
   PROMPT_DATES,
-  TOGGLE_DATE
+  TOGGLE_DATE,
+  START_TIME,
+  END_TIME,
+  REMOVE_DATE,
+  CLEAR_DATES,
+  SET_DATES_SELECTED
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -24,7 +29,8 @@ const INITIAL_STATE = {
   contacts: [],
   contactsSelected: false,
   newGroupName: false,
-  dates: []
+  dates: [],
+  datesSelected: false
 };
 
 toggleUser = function(contacts, contactIndex){
@@ -38,23 +44,35 @@ toggleUser = function(contacts, contactIndex){
   return newContacts;
 }
 
+findDateIndex = function(dates, index){
+  for (i=0; i<dates.length; i++){
+    if (dates[i].index == index){
+      return i;
+    }
+  }
+  return -1;  
+}
+
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case RESET_EVENT_INFO:
       console.log('reseeting');
       return Object.assign(
         {},
-        state,
-        {createMode: true},
-        {messages: []},
-        {eventName: ''},
-        {arrangedBy: ''},
-        {imgUrl: false},
-        {iconName: false},
-        {status: 'init'},
-        {contacts: []},
-        {contactsSelected: false},
-        {newGroupName: false}
+        INITIAL_STATE
+        // state,
+        // {createMode: true},
+        // {messages: []},
+        // {eventName: ''},
+        // {arrangedBy: ''},
+        // {imgUrl: false},
+        // {iconName: false},
+        // {status: 'init'},
+        // {contacts: []},
+        // {contactsSelected: false},
+        // {newGroupName: false},
+        // {dates: []},
+        // {datesSelected: false}        
       );    
     case PUSH_MESSAGE:
       let newMessageArray = state.messages.slice();
@@ -130,24 +148,61 @@ export default (state = INITIAL_STATE, action) => {
       if (index != -1){
         newDates.splice(i,1);  
       } else {
+        const index = newDates.length === 0 ? 0 : _.max(_.map(newDates, 'index')) + 1;
         let dateObj = {};
         dateObj.daysFromToday = daysFromToday;
         dateObj.startTime = null;
         dateObj.endTime = null;
+        dateObj.index = index;
         newDates.push(dateObj);
       }
       newDates = _.orderBy(newDates, ['daysFromToday'], ['asc']);
-      let counter = 0;
-      newDates.map(function(obj){
-        obj.index = counter;
-        counter ++;
-      })
-      // console.log(newDates);
+      console.log(newDates);
       return Object.assign(
         {},
         state,
         {dates: newDates}
-      );      
+      );   
+    case REMOVE_DATE:
+      let datesRemoved = state.dates.slice();
+      let removeIndex = findDateIndex(datesRemoved, action.payload);
+      datesRemoved.splice(removeIndex, 1);
+      return Object.assign(
+        {},
+        state,
+        {dates: datesRemoved}
+      );
+    case START_TIME:
+      let startTimeAdded = state.dates.slice();
+      let startTimeIndex = findDateIndex(startTimeAdded, action.payload.index);
+      startTimeAdded[startTimeIndex].startTime = action.payload.time;
+      console.log(startTimeIndex, action.payload.index);
+      return Object.assign(
+        {},
+        state,
+        {dates: startTimeAdded}
+      );
+    case END_TIME:
+      let endTimeAdded = state.dates.slice();
+      let endTimeIndex = findDateIndex(endTimeAdded, action.payload.index);
+      endTimeAdded[endTimeIndex].endTime = action.payload.time;
+      return Object.assign(
+        {},
+        state,
+        {dates: endTimeAdded}
+      );
+    case SET_DATES_SELECTED:
+      return Object.assign(
+        {},
+        state,
+        {datesSelected: true}
+      )
+    case CLEAR_DATES:
+      return Object.assign(
+        {},
+        state,
+        {dates: []}
+      )      
     default:
       return state;
   }

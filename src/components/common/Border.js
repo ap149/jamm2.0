@@ -2,28 +2,28 @@ import React from 'react';
 import { View } from 'react-native';
 import { Colours } from '../styles'
 
-const Border = ({shadow}) => {
-  const { container, containerShadow } = styles;
+const Border = ({alt}) => {
+  const {
+    borderDefault,
+    borderAlt
+  } = styles;
 
   return (
     <View 
-      style={shadow ? containerShadow : container}
+      style={alt ? borderAlt : borderDefault}
     />
   );
 };
 
 const styles = {
-  container: {
+  borderDefault: {
     borderColor: '#ccc',
     borderWidth: 0.5
   },
 
-  containerShadow: {
-    borderWidth: 0.5,    
-    borderColor: '#ccc',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,    
+  borderAlt: {
+    borderColor: '#fff',
+    borderWidth: 0.25
   }
 
 };

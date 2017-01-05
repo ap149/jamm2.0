@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { updateStatus } from '../../actions';
+import { Actions } from 'react-native-router-flux';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
@@ -14,9 +15,9 @@ class NewGroupSettings extends Component {
     // EventWizMethods.promptChooseInvites(true);    
   }
 
-  skip(){
-    this.props.updateStatus(EventStatus.PROMPT_DATES);
-  }
+  launchDatePicker(){
+    Actions.calendarPicker();
+  }  
 
   render(){
     return (
@@ -27,10 +28,10 @@ class NewGroupSettings extends Component {
           onPress={this.gotoGroupSettings.bind(this)}
         />
         <ChatOption
-          label="Skip"
-          // icon="times"
-          onPress={this.skip.bind(this)}
-        />        
+          label="Choose dates"
+          icon="calendar"
+          onPress={this.launchDatePicker.bind(this)}
+        />
       </ChatOptionContainer>
     );
   }

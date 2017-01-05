@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Border } from '../common';
 import { Colours } from '../styles';
 
@@ -23,7 +23,7 @@ const styles = {
   outerContainer: {
     backgroundColor: Colours.navBarBack,
     paddingTop: 21,
-    minHeight: 47,
+    minHeight: 61,
   },
 
   innerContainer: {

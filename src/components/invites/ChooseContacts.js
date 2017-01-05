@@ -3,11 +3,13 @@ import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
 import { toggleContact, setContactsSelected, resetEventInfo, updateStatus, pushMessage } from '../../actions';
 import { Actions } from 'react-native-router-flux';
+import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
 import { View, TouchableOpacity, Text, ListView, LayoutAnimation } from 'react-native';
-import { NavBarContainer } from '../navBar/NavBarContainer';
-import { NavTextButton } from '../navBar/NavTextButton';
+// import { NavBarContainer } from '../navBar/NavBarContainer';
+// import { NavTextButton } from '../navBar/NavTextButton';
+import NavBar from '../navBar/NavBar';
 import { Colours, Fonts } from '../styles';
 import { Border } from '../common'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -77,16 +79,19 @@ class ChooseContacts extends Component {
   }
 
   done(){
-    const msg1 = EventWizHelpers.createAutoMessage(`${this.props.contacts.length} contact${this.props.contacts.length > 1 ? 's' : ''} invited`);
-    this.props.pushMessage(msg1); 
-    if (!this.props.contactsSelected){
-      const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
-      this.props.pushMessage(msg2);
-      this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
-      this.props.setContactsSelected();
-    }
     Actions.pop();
-    // Actions.pop({refresh: {contacts: this.props.contacts}});   
+    // const msg1 = EventWizHelpers.createAutoMessage(`${this.props.contacts.length} contact${this.props.contacts.length > 1 ? 's' : ''} invited`);
+    // this.props.pushMessage(msg1); 
+    if (!this.props.contactsSelected){
+      this.props.updateStatus(false);          
+      Helpers.delayDefault()
+      .then(() => {        
+        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
+        this.props.pushMessage(msg2);
+        this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+        this.props.setContactsSelected();
+      })
+    };    
   }
 
   toggleContact(contactIndex){
@@ -229,21 +234,14 @@ class ChooseContacts extends Component {
 
     return (
       <View>
-        <NavBarContainer>
-          <NavTextButton
-            onPress={this.cancel.bind(this)}
-            label="Cancel"
-            disabled={this.props.contactsSelected}
-          />                  
-          <View style={midContainer}>
-            {this.renderNavButton()}
-          </View>
-          <NavTextButton
-            onPress={this.done.bind(this)}
-            label="Done"
-            disabled={this.props.contacts.length === 0}
-          />                            
-        </NavBarContainer>
+        <NavBar
+            buttonLeftPress={this.cancel.bind(this)}
+            buttonLeftLabel="Cancel"
+            // disabled={this.props.contactsSelected}
+            buttonRightPress={this.done.bind(this)}
+            buttonRightLabel="Done"
+            // disabled={this.props.contacts.length === 0}                       
+        />
         <ListView
           enableEmptySectionHeaders          
           dataSource={this.state.allContacts}

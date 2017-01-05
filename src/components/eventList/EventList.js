@@ -32,6 +32,10 @@ class EventList extends Component {
     // Actions.auth({type: "reset"});
   }
 
+  newEvent(){
+    Actions.eventWiz();
+  }
+
   render() {
     // this._loadUser();
     const { 
@@ -42,16 +46,14 @@ class EventList extends Component {
       <View style={outerContainer}>
         <NavBar
           sideMenuButton={true}
-          newButton={true}
+          buttonRightLabel="New event"
+          buttonRightPress={this.newEvent.bind(this)}
+          buttonRightFixed={false}
         />
         <Button
           onPress={this.logout.bind(this)}
           title="Logout"
           color={Colours.app}          
-        />
-        <ChatOption
-          label="Choose from photo libray"
-          icon="camera"
         />
       </View>
     )

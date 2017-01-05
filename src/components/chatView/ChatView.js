@@ -75,6 +75,7 @@ class ChatView extends Component {
 
     return (
       <ListView
+        style={chatContainer}
         enableEmptySections={true}
         renderScrollComponent={props => <InvertibleScrollView {...props} inverted />}          
         dataSource={this.props.chatData}
@@ -87,9 +88,9 @@ class ChatView extends Component {
 const styles = {
   chatContainer: {
     // flex: 1,
-    justifyContent: 'flex-end',
-    borderColor: 'green',
-    borderWidth: 3
+    // justifyContent: 'flex-end',
+    // borderColor: 'green',
+    // borderWidth: 3
   }
 }
 

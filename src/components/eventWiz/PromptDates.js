@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { updateNewGroupName, updateStatus, pushMessage } from '../../actions';
+import { Actions } from 'react-native-router-flux';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
@@ -9,35 +10,23 @@ import { EventStatus } from './EventStatus';
 
 class PromptDates extends Component {
   componentWillMount(){
-    const msg = EventWizHelpers.createBotMessage(`Do you want to choose dates and times or just dates?`);
+    const msg = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
     console.log(msg);
     this.props.pushMessage(msg);
   }
 
   launchDatePicker(){
-    const msg = EventWizHelpers.createBotMessage(`test new msg`);
-    console.log(msg);
-    this.props.pushMessage(msg);
-  }
-
-  launchDatetimePicker(){
-    console.log("datetime picker");
-    
+     Actions.calendarPicker();
   }
 
   render(){
     return (
       <ChatOptionContainer>
         <ChatOption
-          label="Dates only"
+          label="Choose date(s)"
           icon="calendar"
           onPress={this.launchDatePicker.bind(this)}
         />
-        <ChatOption
-          label="Dates and times"
-          icon="clock-o"
-          onPress={this.launchDatetimePicker.bind(this)}
-        />        
       </ChatOptionContainer>
     );
   }

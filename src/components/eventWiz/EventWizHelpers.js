@@ -18,7 +18,7 @@ export const delayDefault = () => {
   let promise = new Promise((resolve, reject) => {
     setTimeout(function() {
       resolve();
-    }, 1000);
+    }, 650);
   })
   return promise;
 }
@@ -60,8 +60,10 @@ export const chooseImageMessage = (eventName) => {
   return `Do you want to add an image or change the icon above for ${eventName}?`;
 }
 
-export const skipMessage = 'Not right now';
-export const chooseContacts = 'Next select who you want to invite.';
 export const msg = {
-  NEW_GROUP_NAME: 'If you want to save these contacts as a group, enter a name below. Otherwise skip to choose dates.'
+  SKIP: 'Not right now.',
+  PROMPT_CONTACTS: 'Next select who you want to invite.',
+  NEW_GROUP_NAME: 'If you want to save these contacts as a group, enter a name below. Otherwise tap choose dates.',
+  GROUP_SAVED: "Ok. This will be a shared group that everyone in it can use. You are the only admin. Do you want to change any settings or start choosing dates?",
+  PROMPT_DATES: 'You can pick one date or suggest as many options as you like.'
 }

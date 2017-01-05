@@ -28,17 +28,22 @@ class EventNewGroupName extends Component {
     this.props.pushMessage(EventWizHelpers.createUserMessage(this.props.userId, msg1));
     Keyboard.dismiss();
     this.props.updateStatus(false);
+    this.props.updateNewGroupName(this.state.inputText);
     Helpers.delayShort()
     .then(() => {
-      const msg2 = `Done. Everyone in this group will be able to use it to arrange other events. You are the only admin. Do you want to change any group settings or skip to choose dates?`;
-      this.props.pushMessage(EventWizHelpers.createBotMessage(msg2));
+      // const msg2 = `Done. Everyone in this group will be able to use it to arrange other events. You are the only admin. Do you want to change any group settings or skip to choose dates?`;
+      this.props.pushMessage(EventWizHelpers.createBotMessage(EventWizHelpers.msg.GROUP_SAVED));
       this.props.updateStatus(EventStatus.NEW_GROUP_SETTINGS);      
     });
   }
 
-  skip(){
-      this.props.updateStatus(EventStatus.PROMPT_DATES);
-  }
+  launchDatePicker(){
+    Actions.calendarPicker();
+  }  
+
+  // skip(){
+  //   this.props.updateStatus(EventStatus.PROMPT_DATES);
+  // }
 
   render(){
     return (
@@ -54,8 +59,9 @@ class EventNewGroupName extends Component {
         />      
         <ChatOptionContainer>
           <ChatOption
-            label="Skip"
-            onPress={this.skip.bind(this)}
+            label="Choose dates"
+            icon="calendar"
+            onPress={this.launchDatePicker.bind(this)}
           />
         </ChatOptionContainer>
       </View>

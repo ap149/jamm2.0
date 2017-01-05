@@ -14,22 +14,23 @@ class Day extends Component {
   isSelected(){
     for (i=0; i<this.props.dates.length; i++) {
       if (this.props.dates[i].daysFromToday == this.props.daysFromToday){
-        return true;
+        return this.props.dates[i].startTime ? 2 : 1;
       }
     }
-    return false;
+    return 0;
   }
 
   getContainerStyle(){
     const {
       innerContainerDefault,
       innerContainerSelected,
+      innerContainerTimeSelected
     } = styles;
-
-    if (this.props.disabled || !this.isSelected()){
+    const isSelected = this.isSelected();
+    if (this.props.disabled || isSelected == 0){
       return innerContainerDefault;
     }
-    return innerContainerSelected;
+    return isSelected == 1 ? innerContainerSelected : innerContainerTimeSelected
   }
 
 
@@ -44,7 +45,7 @@ class Day extends Component {
     if (this.props.disabled){
       return textDisabled;
     }
-    if (this.isSelected()){
+    if (this.isSelected() == 1){
       return textSelected;
     }
     return textDefault;
@@ -64,7 +65,7 @@ class Day extends Component {
         onPress={this.onPress.bind(this)}
         disabled={this.props.disabled}>
         <View style={this.getContainerStyle()}>
-          <Text style={this.getTextStyle()}>{this.props.date}</Text>
+          <Text style={this.getTextStyle()}>{this.props.day}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -77,7 +78,6 @@ const styles = {
     marginVertical: 4,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
 
   innerContainerDefault: {
@@ -88,16 +88,26 @@ const styles = {
   },
 
   innerContainerSelected: {
-    height: 34,
-    width: 34,
+    height: 32,
+    width: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 17,
-    backgroundColor: Colours.app
+    borderRadius: 16,
+    backgroundColor: Colours.appMain
+  },
+
+  innerContainerTimeSelected: {
+    height: 32,
+    width: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: Colours.appMain
   },
 
   textDefault: {
-
+    color: Colours.appMain
   },
 
   textSelected: {
@@ -106,7 +116,7 @@ const styles = {
   },
 
   textDisabled: {
-    color: '#ddd'
+    color: Colours.disabled
   }
 }
 

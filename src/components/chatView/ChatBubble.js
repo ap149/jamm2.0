@@ -3,13 +3,52 @@ import { View, Text, LayoutAnimation, Animated } from 'react-native';
 import { Colours } from '../styles';
 
 const BORDER_RADIUS = 13;
+let typingInterval;
 
 class ChatBubble extends Component {
   constructor() {
     super();
+    this.state = {
+      counter: 0
+    }
   }
 
-  _renderLeftBubble(){
+  componentWillMount(){
+    if (this.props.typing){
+      typingInterval = setInterval(()=> {
+        if (this.state.counter == 2){
+          this.setState({counter: 0})
+        } else {
+          this.setState({counter: this.state.counter + 1})
+        }
+        console.log(this.state.counter)
+      }, 175)
+    }
+  }
+
+  componentWillUpdate(){
+    if (this.props.typing){
+      LayoutAnimation.spring();
+    }
+  }
+
+  componentWillUnmount(){
+    if (this.props.typing){
+      clearInterval(typingInterval);
+    }
+  }
+
+  renderTyping(){
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={this.state.counter == 0 ? styles.typingDotActive : styles.typingDot} />
+        <View style={this.state.counter == 1 ? styles.typingDotActive : styles.typingDot} />
+        <View style={this.state.counter == 2 ? styles.typingDotActive : styles.typingDot} />
+      </View>
+    )
+  }
+
+  _renderLeftBubble(typing = false){
     const { 
       leftOuterContainer,
       leftInnerContainer,
@@ -27,7 +66,7 @@ class ChatBubble extends Component {
             <View style={leftArrowInner} />
           </View>      
           <View style={leftBubbleContainer}>
-            <Text>{this.props.children}</Text>
+            {typing ? this.renderTyping() : <Text>{this.props.children}</Text>}
           </View>
         </View>
         <View style={leftInnerSpace}/>
@@ -63,6 +102,9 @@ class ChatBubble extends Component {
   }
 
   _handleRender(){
+    if (this.props.typing){
+      return this._renderLeftBubble(true);
+    }    
     if (this.props.fromUser){
       return this._renderRightBubble();
     } else {
@@ -71,6 +113,7 @@ class ChatBubble extends Component {
   }
 
   render(){
+
     const {fromUser} = this.props;
 
     const { 
@@ -161,7 +204,7 @@ const styles = {
 
   rightBubbleContainer: {
     // flex: 1,
-    backgroundColor: Colours.app,
+    backgroundColor: Colours.appMain,
     paddingVertical: 9,
     paddingHorizontal: 9,
     borderRadius: 13,
@@ -171,7 +214,7 @@ const styles = {
   rightArrowContainer: {
     width: 28,
     height: 28,
-    backgroundColor: Colours.app
+    backgroundColor: Colours.appMain
   },
 
   rightArrowInner: {
@@ -191,6 +234,24 @@ const styles = {
     color: '#f4f4f4',
     paddingVertical: 5
   },
+
+  typingDot: {
+    backgroundColor: '#bbb',
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginHorizontal: 3,
+    marginVertical: 4
+  },
+
+  typingDotActive: {
+    backgroundColor: '#bbb',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 3,
+    marginVertical: 4
+  }
 
 };
 

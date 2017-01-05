@@ -18,19 +18,23 @@ import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colours, Fonts } from '../styles';
 import { Border } from '../common';
+import { Shadow } from '../common';
 import ChatView from '../chatView/ChatView';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
+import NavBar  from '../navBar/NavBar';
 import EventWizNavBar from './EventWizNavBar';
 import Name from './Name';
 import SelectImage from './SelectImage';
 import SelectInvites from './SelectInvites';
 import ChatInfoItem from '../chatView/ChatInfoItem'
 import SelectedInvites from './SelectedInvites';
+import SelectedDates from './SelectedDates';
 import NewGroupName from './NewGroupName';
 import NewGroupSettings from './NewGroupSettings';
 import PromptDates from './PromptDates';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
+import ChatBubble from '../chatView/ChatBubble';
 
 let botMessage = {
   type: 'text',
@@ -53,6 +57,10 @@ class EventWiz extends Component {
   componentWillMount(){
     const firstName = this.props.displayName.split(' ')[0]; 
     this.props.pushMessage(EventWizHelpers.initMsg(firstName));
+  }
+
+  componentWillUpdate(){
+    LayoutAnimation.spring();
   }
 
   changeContacts(){
@@ -103,11 +111,19 @@ class EventWiz extends Component {
           <PromptDates/>
         ) 
       default:
-        console.log(this.props.status);
         return (
-          <ChatInputEmpty loading></ChatInputEmpty>
+          <ChatInputEmpty></ChatInputEmpty>
         )
     }
+  }
+
+  renderWaiting(){
+    if (this.props.status) return <View/>;
+    return (
+      <ChatBubble 
+        typing
+      />
+    )    
   }
 
   getDataSource(){
@@ -123,12 +139,14 @@ class EventWiz extends Component {
     return (
 
         <View style={outerContainer}>
-          <EventWizNavBar />
+          <EventWizNavBar/>
           <SelectedInvites />
-          <Border shadow/>          
+          <SelectedDates />
+          <Shadow />  
           <ChatView 
             chatData={this.getDataSource()}
           />
+          {this.renderWaiting()}
           <Border />
           {this.renderInputContainer()}
           <KeyboardSpacer/>

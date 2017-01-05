@@ -11,7 +11,12 @@ import {
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
   PROMPT_DATES,
-  TOGGLE_DATE
+  TOGGLE_DATE,
+  START_TIME,
+  END_TIME,
+  REMOVE_DATE,
+  CLEAR_DATES,
+  SET_DATES_SELECTED
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -81,6 +86,38 @@ export const toggleDate = (daysFromNow) => {
   }
 }
 
+export const removeDate = (index) => {
+  return {
+    type: REMOVE_DATE,
+    payload: index
+  }
+}
+
+export const setStartTime = (index, time) => {
+  return {
+    type: START_TIME,
+    payload: {index, time}
+  }
+}
+
+export const setEndTime = (index, time) => {
+  return {
+    type: END_TIME,
+    payload: {index, time}
+  }
+}
+
+export const setDatesSelected = () => {
+  return {
+    type: SET_DATES_SELECTED
+  }
+}
+
+export const clearDates = () => {
+  return {
+    type: CLEAR_DATES
+  }
+}
 export const setStatusLoading = () => {
   return {
     type: SET_STATUS_LOADING
