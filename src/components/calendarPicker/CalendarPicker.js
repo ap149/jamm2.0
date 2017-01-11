@@ -1,10 +1,12 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { setDatesSelected, clearDates, updateStatus } from '../../actions';
+import { setDatesSelected, clearDates, updateStatus, pushMessage } from '../../actions';
 import { Actions } from 'react-native-router-flux';
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import * as Helpers from '../common/Helpers';
+import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
+import { EventStatus } from '../eventWiz/EventStatus';
 import NavBar from '../navBar/NavBar';
 import { NavTextButton } from '../navBar/NavTextButton';
 import CalendarMatrix from './CalendarMatrix';
@@ -29,14 +31,19 @@ class CalendarPicker extends Component {
   done(){
     Actions.pop();
     Helpers.delayDefault()
-    .then(() => {        
+    .then(() => {
       // const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
       // this.props.pushMessage(msg2);
-      this.props.updateStatus(false);
-      this.props.setDatesSelected();
+      if (!this.props.datesSelected){
+        const str = this.props.dates.length > 1 ? `${this.props.dates.length} dates suggested` : "Date selected";
+        const msg = EventWizHelpers.createAutoMessage(str);
+        this.props.pushMessage(msg);
+        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_LOCATION);
+        this.props.pushMessage(msg2);
+        this.props.updateStatus(EventStatus.PROMPT_LOCATION);
+        this.props.setDatesSelected();
+      }
     })    
-    // this.props.setDatesSelected();
-    // this.props.updateStatus(false);           
   }
 
   monthBack(){
@@ -175,4 +182,4 @@ const mapStateToProps = (state) => {
   return { dates, datesSelected };
 };
 
-export default connect(mapStateToProps, { setDatesSelected, clearDates, updateStatus })(CalendarPicker);
+export default connect(mapStateToProps, { setDatesSelected, clearDates, updateStatus, pushMessage })(CalendarPicker);

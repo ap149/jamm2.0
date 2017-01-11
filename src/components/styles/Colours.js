@@ -21,7 +21,7 @@ const Colours = {
 
   navBarBack: '#002E2A',
   navBarButton: '#00EDDA',
-  navBarButtonDisabled: '#002623',
+  navBarButtonDisabled: '#37736A',
 
   shadedBack: '#f4f4f4',
   disabled: '#ccc'

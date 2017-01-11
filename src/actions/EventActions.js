@@ -7,6 +7,7 @@ import {
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
   ADD_ICON,
+  RESET_CONTACTS_SELECTED,
   TOGGLE_CONTACT,
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
@@ -16,7 +17,8 @@ import {
   END_TIME,
   REMOVE_DATE,
   CLEAR_DATES,
-  SET_DATES_SELECTED
+  SET_DATES_SELECTED,
+  SET_LOCATION
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -53,10 +55,19 @@ export const addIcon = (iconName) => {
   }
 }
 
-export const toggleContact = (contactIndex) => {
+export const resetContactsSelected = () => {
+  return {
+    type: RESET_CONTACTS_SELECTED
+  }
+}
+
+export const toggleContact = (contactIndex, contactObj) => {
   return {
     type: TOGGLE_CONTACT,
-    payload: contactIndex
+    payload: {
+      contactIndex: contactIndex,
+      contactObj: contactObj
+    }
   }
 }
 
@@ -118,8 +129,17 @@ export const clearDates = () => {
     type: CLEAR_DATES
   }
 }
+
+export const setLocation = (location) => {
+  return {
+    type: SET_LOCATION,
+    payload: location
+  }
+}
+
 export const setStatusLoading = () => {
   return {
     type: SET_STATUS_LOADING
   }
 }
+

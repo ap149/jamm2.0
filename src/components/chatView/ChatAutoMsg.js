@@ -3,22 +3,32 @@ import {View, Text} from 'react-native';
 
 const ChatAutoMsg = ({body}) => {
   const {
-    container,
+    outerContainer,
+    innerContainer,
     textStyle
   } = styles;
 
   return (
-    <View style={container}>
-      <Text style={textStyle}>{body}</Text>
+    <View style={outerContainer}>
+      <View style={innerContainer}>
+        <Text style={textStyle}>{body}</Text>
+      </View>
     </View>
   )
 }
 
 const styles = {
-  container: {
-    paddingHorizontal: 24,
+  outerContainer: {
+    paddingHorizontal: 42,
     paddingVertical: 12,
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+
+  innerContainer: {
+    backgroundColor: '#eee',
+    borderRadius: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 8
   },
 
   textStyle: {

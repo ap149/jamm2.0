@@ -64,6 +64,8 @@ export const msg = {
   SKIP: 'Not right now.',
   PROMPT_CONTACTS: 'Next select who you want to invite.',
   NEW_GROUP_NAME: 'If you want to save these contacts as a group, enter a name below. Otherwise tap choose dates.',
+  INVITES_UPDATED: 'Invites updated',
   GROUP_SAVED: "Ok. This will be a shared group that everyone in it can use. You are the only admin. Do you want to change any settings or start choosing dates?",
-  PROMPT_DATES: 'You can pick one date or suggest as many options as you like.'
+  PROMPT_DATES: "Ok. Next suggest dates for the event.",
+  PROMPT_LOCATION: "Do you want to enter a venue for the event?"
 }

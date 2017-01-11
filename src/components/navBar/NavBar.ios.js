@@ -54,7 +54,9 @@ class NavBar extends Component {
       <View style={leftButtonContainer}>
         <NavTextButton 
           onPress={this.props.buttonLeftPress}
+          disabled={this.props.buttonLeftDisabled}          
           fixed={this.props.buttonLeftFixed}
+          buttonRight={false}
         >
           {this.props.buttonLeftLabel}
         </NavTextButton>        
@@ -75,7 +77,8 @@ class NavBar extends Component {
         <NavTextButton 
           onPress={this.props.buttonRightPress}
           disabled={this.props.buttonRightDisabled}
-          fixed={this.props.buttonRightFixed}       
+          fixed={this.props.buttonRightFixed}  
+          buttonRight={true}   
         >
           {this.props.buttonRightLabel}
         </NavTextButton>        

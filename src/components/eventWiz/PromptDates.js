@@ -10,9 +10,9 @@ import { EventStatus } from './EventStatus';
 
 class PromptDates extends Component {
   componentWillMount(){
-    const msg = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
-    console.log(msg);
-    this.props.pushMessage(msg);
+    // const msg = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
+    // console.log(msg);
+    // this.props.pushMessage(msg);
   }
 
   launchDatePicker(){
@@ -23,7 +23,7 @@ class PromptDates extends Component {
     return (
       <ChatOptionContainer>
         <ChatOption
-          label="Choose date(s)"
+          label="Choose dates"
           icon="calendar"
           onPress={this.launchDatePicker.bind(this)}
         />

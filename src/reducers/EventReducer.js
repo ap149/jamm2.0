@@ -6,6 +6,7 @@ import {
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
   ADD_ICON,
+  RESET_CONTACTS_SELECTED,
   TOGGLE_CONTACT,
   SET_CONTACTS_SELECTED,
   UPDATE_NEW_GROUP_NAME,
@@ -15,7 +16,8 @@ import {
   END_TIME,
   REMOVE_DATE,
   CLEAR_DATES,
-  SET_DATES_SELECTED
+  SET_DATES_SELECTED,
+  SET_LOCATION
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -27,10 +29,13 @@ const INITIAL_STATE = {
   iconName: false,
   status: 'init',
   contacts: [],
+  contactObjs: [],
   contactsSelected: false,
   newGroupName: false,
   dates: [],
-  datesSelected: false
+  datesSelected: false,
+  location: null,
+  locationSelected: false
 };
 
 toggleUser = function(contacts, contactIndex){
@@ -59,20 +64,7 @@ export default (state = INITIAL_STATE, action) => {
       console.log('reseeting');
       return Object.assign(
         {},
-        INITIAL_STATE
-        // state,
-        // {createMode: true},
-        // {messages: []},
-        // {eventName: ''},
-        // {arrangedBy: ''},
-        // {imgUrl: false},
-        // {iconName: false},
-        // {status: 'init'},
-        // {contacts: []},
-        // {contactsSelected: false},
-        // {newGroupName: false},
-        // {dates: []},
-        // {datesSelected: false}        
+        INITIAL_STATE       
       );    
     case PUSH_MESSAGE:
       let newMessageArray = state.messages.slice();
@@ -109,13 +101,27 @@ export default (state = INITIAL_STATE, action) => {
         state,
         {iconName: action.payload}
       );
-    case TOGGLE_CONTACT:
-      const newContacts = _.xor(state.contacts, [action.payload]);
-      console.log(newContacts);
+    case RESET_CONTACTS_SELECTED:
       return Object.assign(
         {},
         state,
-        {contacts: newContacts}
+        {contacts: []}
+      );
+    case TOGGLE_CONTACT:
+      const indexBefore = state.contacts.indexOf(action.payload.contactIndex);
+      const newContacts = _.xor(state.contacts, [action.payload.contactIndex]);
+      const indexAfter = newContacts.indexOf(action.payload.contactIndex);
+      let newContactObjs = state.contactObjs.slice();
+      if (indexBefore != -1){
+        newContactObjs.splice(indexBefore, 1);
+      } else {
+        newContactObjs.splice(indexAfter, 0, action.payload.contactObj)
+      }
+      return Object.assign(
+        {},
+        state,
+        {contacts: newContacts},
+        {contactObjs: newContactObjs}
       );
     case SET_CONTACTS_SELECTED:
       return Object.assign(
@@ -157,7 +163,6 @@ export default (state = INITIAL_STATE, action) => {
         newDates.push(dateObj);
       }
       newDates = _.orderBy(newDates, ['daysFromToday'], ['asc']);
-      console.log(newDates);
       return Object.assign(
         {},
         state,
@@ -176,7 +181,6 @@ export default (state = INITIAL_STATE, action) => {
       let startTimeAdded = state.dates.slice();
       let startTimeIndex = findDateIndex(startTimeAdded, action.payload.index);
       startTimeAdded[startTimeIndex].startTime = action.payload.time;
-      console.log(startTimeIndex, action.payload.index);
       return Object.assign(
         {},
         state,
@@ -196,6 +200,13 @@ export default (state = INITIAL_STATE, action) => {
         {},
         state,
         {datesSelected: true}
+      )
+    case SET_LOCATION:
+      return Object.assign(
+        {},
+        state,
+        {location: action.payload},
+        {locationSelected: true}
       )
     case CLEAR_DATES:
       return Object.assign(

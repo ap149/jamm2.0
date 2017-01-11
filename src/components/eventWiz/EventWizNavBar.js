@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, Image, LayoutAnimation, Alert } from 'rea
 import Meteor from 'react-native-meteor';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import * as Helpers from '../common/Helpers';
 import { resetEventInfo } from '../../actions';
 import NavBar  from '../navBar/NavBar';
 import { NavTextButton } from '../navBar/NavTextButton';
@@ -18,7 +19,10 @@ class EventWizNavBar extends Component {
 
   confirmCancel(){
     Actions.pop();
-    this.props.resetEventInfo();  
+    Helpers.delayDefault()
+    .then(() => {
+      this.props.resetEventInfo();  
+    });     
   }
 
   pressCancel() {
@@ -41,9 +45,7 @@ class EventWizNavBar extends Component {
   }
   
   editInfo(){
-    console.log("edit event name");
-    console.log(this.props.eventName);
-    console.log(this.props.iconName);
+    console.log("edit info");
   }
 
   renderGraphic(){
@@ -72,7 +74,7 @@ class EventWizNavBar extends Component {
       return (
         <View style={eventInfoContainer}>
           <Text style={Fonts.navHeader}>{this.props.eventName}</Text>
-          
+          <Text style={Fonts.navSubheader}>Tap to change title or icon</Text>
         </View>        
       )
     } else {
@@ -83,10 +85,13 @@ class EventWizNavBar extends Component {
   renderMain(){
     if (this.props.eventName){
       return (
-        <View style={styles.midContainer}>
+        <TouchableOpacity 
+          onPress={this.editInfo.bind(this)}
+          style={styles.midContainer}
+        >
           {this.renderGraphic()}
           {this.renderEventInfo()}
-        </View>
+        </TouchableOpacity>
       )
     }
   }
@@ -100,7 +105,7 @@ class EventWizNavBar extends Component {
       <NavBar
         buttonLeftPress={this.pressCancel.bind(this)}
         buttonLeftLabel="Cancel"
-        buttonRightLabel={this.props.eventName ? 'Change' : false}
+        // buttonRightLabel={this.props.eventName ? 'Change' : false}
       >
         {this.renderMain()}
       </NavBar>

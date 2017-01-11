@@ -30,17 +30,16 @@ class SelectedDates extends Component {
 
   renderSelectedInfo(){
     if (this.props.dates.length == 1){
-      console.log(this.props.dates[0].startTime);
       return (
         <View>
-          <Text style={Fonts.chatInfoHeader}>{moment().add(this.props.dates[0].daysFromNow, 'days').format('ddd D MMM')}</Text>
+          <Text style={Fonts.chatInfoHeader}>{moment().add(this.props.dates[0].daysFromToday, 'days').format('ddd D MMM')}</Text>
           {this.renderTime()}
         </View>
       )
     }
     return (
       <View>
-        <Text style={Fonts.chatInfoSubheader}>{this.props.dates.length} dates suggested</Text>
+        <Text style={Fonts.chatInfoHeader}>{this.props.dates.length} dates suggested</Text>
       </View>
     )    
   }

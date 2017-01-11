@@ -21,8 +21,7 @@ class ChatBubble extends Component {
         } else {
           this.setState({counter: this.state.counter + 1})
         }
-        console.log(this.state.counter)
-      }, 175)
+      }, 225)
     }
   }
 

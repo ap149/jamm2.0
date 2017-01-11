@@ -30,9 +30,11 @@ import SelectInvites from './SelectInvites';
 import ChatInfoItem from '../chatView/ChatInfoItem'
 import SelectedInvites from './SelectedInvites';
 import SelectedDates from './SelectedDates';
+import Location from './Location';
 import NewGroupName from './NewGroupName';
 import NewGroupSettings from './NewGroupSettings';
 import PromptDates from './PromptDates';
+import PromptLocation from './PromptLocation';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 import ChatBubble from '../chatView/ChatBubble';
 
@@ -110,6 +112,10 @@ class EventWiz extends Component {
         return (
           <PromptDates/>
         ) 
+      case EventStatus.PROMPT_LOCATION:
+        return (
+          <PromptLocation/>
+        ) 
       default:
         return (
           <ChatInputEmpty></ChatInputEmpty>
@@ -142,6 +148,7 @@ class EventWiz extends Component {
           <EventWizNavBar/>
           <SelectedInvites />
           <SelectedDates />
+          <Location />
           <Shadow />  
           <ChatView 
             chatData={this.getDataSource()}

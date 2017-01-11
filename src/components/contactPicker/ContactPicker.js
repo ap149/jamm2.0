@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
-import { toggleContact, setContactsSelected, resetEventInfo, updateStatus, pushMessage } from '../../actions';
+import { toggleContact, setContactsSelected, resetContactsSelected, updateNewGroupName, updateStatus, pushMessage } from '../../actions';
 import { Actions } from 'react-native-router-flux';
 import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
-import { View, TouchableOpacity, Text, ListView, LayoutAnimation } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, ListView, LayoutAnimation } from 'react-native';
 // import { NavBarContainer } from '../navBar/NavBarContainer';
 // import { NavTextButton } from '../navBar/NavTextButton';
 import NavBar from '../navBar/NavBar';
@@ -14,7 +14,7 @@ import { Colours, Fonts } from '../styles';
 import { Border } from '../common'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class ChooseContacts extends Component {
+class ContactPicker extends Component {
   constructor(){
     super();
 
@@ -74,28 +74,34 @@ class ChooseContacts extends Component {
   }
 
   cancel(){   
-    this.props.resetEventInfo();
+    this.props.resetContactsSelected();
     Actions.pop();    
   }
 
   done(){
     Actions.pop();
-    // const msg1 = EventWizHelpers.createAutoMessage(`${this.props.contacts.length} contact${this.props.contacts.length > 1 ? 's' : ''} invited`);
-    // this.props.pushMessage(msg1); 
     if (!this.props.contactsSelected){
+      const strJoin = this.props.contacts.length > 1 ? 'contacts' : 'contact';
+      const str = `${this.props.contacts.length} {strJoin} selected`;
       this.props.updateStatus(false);          
-      Helpers.delayDefault()
-      .then(() => {        
-        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
-        this.props.pushMessage(msg2);
-        this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+      Helpers.delayShort()
+      .then(() => {
+        if (this.props.contacts.length > 1){
+          const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
+          this.props.pushMessage(msg2);
+          this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+        } else {
+          const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
+          this.props.pushMessage(msg2);
+          this.props.updateStatus(EventStatus.PROMPT_DATES);
+        }
         this.props.setContactsSelected();
       })
-    };    
+    }
   }
 
   toggleContact(contactIndex){
-    this.props.toggleContact(contactIndex);
+    this.props.toggleContact(contactIndex, this.state.flattenedContacts[contactIndex]);
     this.updateList();
   }
 
@@ -116,6 +122,19 @@ class ChooseContacts extends Component {
   viewSelected(){
     this.setState({viewSelected: true});
     Actions.refresh();    
+  }
+
+  renderFilter(){
+    if (this.props.contacts.length == 0) return <View/>
+
+    return (
+      <TouchableOpacity
+        style={styles.textButtonContainer}
+        onPress={this.state.viewSelected ? this.viewAll.bind(this) : this.viewSelected.bind(this)}
+      >
+        <Text style={styles.textButton}>{this.state.viewSelected ? "View all" : `View selected (${this.props.contacts.length})`}</Text>
+      </TouchableOpacity>
+    )
   }
 
   renderTick(item){
@@ -236,14 +255,18 @@ class ChooseContacts extends Component {
       <View>
         <NavBar
             buttonLeftPress={this.cancel.bind(this)}
-            buttonLeftLabel="Cancel"
-            // disabled={this.props.contactsSelected}
+            buttonLeftLabel={(this.props.contactsSelected) ? ' ' : 'Cancel'}
+            buttonLeftFixed={true}
+            buttonLeftDisabled={this.props.contactsSelected}
             buttonRightPress={this.done.bind(this)}
             buttonRightLabel="Done"
-            // disabled={this.props.contacts.length === 0}                       
-        />
+            buttonRightFixed={true}
+            buttonRightDisabled={this.props.contacts.length == 0}                       
+        >
+          {this.renderFilter()}
+        </NavBar>
         <ListView
-          enableEmptySectionHeaders          
+          // enableEmptySectionHeaders          
           dataSource={this.state.allContacts}
           renderRow={(item) => this.state.viewSelected ? this.renderSelectedItems(item) : this.renderAllItems(item)}
         />
@@ -259,9 +282,17 @@ const styles = {
     // flexDirection: 'row',
     // paddingLeft: 7
   },
+  
+  textButtonContainer: {
+    alignItems: 'center',
+    paddingTop: 6
+  },
 
-  outerContainer: {
-
+  textButton: {
+    color: Colours.navBarButton,
+    fontSize: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 9,
   },
 
   innerContainer: {
@@ -296,7 +327,8 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { 
   toggleContact,
   setContactsSelected,
-  resetEventInfo,
+  resetContactsSelected,
+  updateNewGroupName,
   updateStatus,
   pushMessage
-})(ChooseContacts);
+})(ContactPicker);

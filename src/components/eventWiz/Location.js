@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { TouchableOpacity, LayoutAnimation, View, Text } from 'react-native';
 import { connect } from 'react-redux';
@@ -6,39 +7,14 @@ import ChatInfoItem from '../chatView/ChatInfoItem'
 import { Border } from '../common';
 import { Colours, Fonts } from '../styles';
 
-class SelectedInvites extends Component {
+class Location extends Component {
 
   componentWillUpdate(){
     LayoutAnimation.spring();
   }
 
-  changeContacts(){
-    Actions.chooseContacts();
-  }
-
-  renderSelectedInfo(){
-    if (this.props.contacts.length == 1){
-      return (
-        <Text style={Fonts.chatInfoHeader}>{this.props.contactObjs[0].displayName}</Text>
-      )
-    }
-    if (!this.props.newGroupName){
-      return (
-        <Text style={Fonts.chatInfoHeader}>{this.props.contacts.length} contacts invited</Text>
-      )
-    }
-    if ((this.props.contacts.length > 1) && this.props.newGroupName){
-      return (
-        <View>
-          <Text style={Fonts.chatInfoHeader}>{this.props.newGroupName}</Text>
-          <Text style={Fonts.chatInfoSubheader}>You plus {this.props.contacts.length} others</Text>
-        </View>
-      )      
-    }
-  }
-
   render(){
-    if (this.props.contacts.length < 1) {
+    if (!this.props.locationSelected) {
       return <View/>
     }
     const {
@@ -51,11 +27,15 @@ class SelectedInvites extends Component {
     const _this = this;
     return (
       <ChatInfoItem
-        iconName={this.props.contacts.length === 1 ? 'user' : 'users'}
+        iconName='map-marker'
         buttonArrow
-        onPress={this.changeContacts.bind(this)}
+        onPress={() => console.log("location detail")}
       >
-        {this.renderSelectedInfo()}
+        {this.props.location ?
+          <Text style={Fonts.chatInfoHeader}>{this.props.location}</Text>
+          :
+          <Text style={Fonts.chatInfoSubheader}>Location TBC</Text>
+        }
       </ChatInfoItem>
       // <View>
       //   <View style={infoContainer}>
@@ -107,8 +87,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, contactObjs, newGroupName } = state.eventInfo;
-  return { contacts, contactObjs, newGroupName };
+  const { location, locationSelected } = state.eventInfo;
+  return { location, locationSelected };
 };
 
-export default connect(mapStateToProps, { })(SelectedInvites);
+export default connect(mapStateToProps, { })(Location);
