@@ -10,6 +10,7 @@ import { View, TouchableOpacity, Text, TextInput, ListView, LayoutAnimation } fr
 // import { NavBarContainer } from '../navBar/NavBarContainer';
 // import { NavTextButton } from '../navBar/NavTextButton';
 import NavBar from '../navBar/NavBar';
+import ChatInfoItem from '../chatView/ChatInfoItem'
 import { Colours, Fonts } from '../styles';
 import { Border } from '../common'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -124,6 +125,10 @@ class ContactPicker extends Component {
     Actions.refresh();    
   }
 
+  saveAsGroup(){
+    console.log('save as group');
+  }
+
   renderFilter(){
     if (this.props.contacts.length == 0) return <View/>
 
@@ -135,6 +140,20 @@ class ContactPicker extends Component {
         <Text style={styles.textButton}>{this.state.viewSelected ? "View all" : `View selected (${this.props.contacts.length})`}</Text>
       </TouchableOpacity>
     )
+  }
+
+  renderSaveAsGroup(){
+    if (this.props.contactsSelected && !this.props.newGroupName && (this.props.contacts.length > 1)){
+      return (
+        <ChatInfoItem
+          iconName='upload'
+          buttonArrow
+          onPress={this.saveAsGroup.bind(this)}
+        >
+          <Text style={Fonts.chatInfoSubheader}>Save as permanent group?</Text>          
+        </ChatInfoItem>        
+      )
+    }
   }
 
   renderTick(item){
@@ -265,6 +284,7 @@ class ContactPicker extends Component {
         >
           {this.renderFilter()}
         </NavBar>
+        {this.renderSaveAsGroup()}
         <ListView
           // enableEmptySectionHeaders          
           dataSource={this.state.allContacts}
@@ -320,8 +340,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, contactsSelected } = state.eventInfo;
-  return { contacts, contactsSelected };
+  const { contacts, contactsSelected, newGroupName } = state.eventInfo;
+  return { contacts, contactsSelected, newGroupName };
 };
 
 export default connect(mapStateToProps, { 

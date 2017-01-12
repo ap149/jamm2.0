@@ -12,8 +12,12 @@ class SelectedInvites extends Component {
     LayoutAnimation.spring();
   }
 
-  changeContacts(){
-    Actions.chooseContacts();
+  onPress(){
+    if (this.props.newGroupName){
+      console.log("go to group settings");
+    } else {
+      Actions.chooseContacts();
+    }
   }
 
   renderSelectedInfo(){
@@ -24,7 +28,7 @@ class SelectedInvites extends Component {
     }
     if (!this.props.newGroupName){
       return (
-        <Text style={Fonts.chatInfoHeader}>{this.props.contacts.length} contacts invited</Text>
+        <Text style={Fonts.chatInfoHeader}>{this.props.contacts.length} people invited</Text>
       )
     }
     if ((this.props.contacts.length > 1) && this.props.newGroupName){
@@ -53,7 +57,7 @@ class SelectedInvites extends Component {
       <ChatInfoItem
         iconName={this.props.contacts.length === 1 ? 'user' : 'users'}
         buttonArrow
-        onPress={this.changeContacts.bind(this)}
+        onPress={this.onPress.bind(this)}
       >
         {this.renderSelectedInfo()}
       </ChatInfoItem>

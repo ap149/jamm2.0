@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
-import { updateStatus, setLocation } from '../../actions';
+import { updateStatus, pushMessage, setLocation } from '../../actions';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
 import ChatInput from '../chatInput/ChatInput'
 import ChatOption from '../chatInput/ChatOption'
@@ -22,29 +22,30 @@ class PromptLocation extends Component {
     this.setState({inputText})
   }
 
-  onSend(){
+  handleNext(location){
     this.props.updateStatus(false);
-    Helpers.delayShort()
+    Helpers.delayDefault()
     .then(() => {
-      this.props.setLocation(this.state.inputText);      
-      this.props.pushMessage(EventWizHelpers.createBotMessage(EventWizHelpers.msg.GROUP_SAVED));
-    });    
-    // setTimeout(function() {
-    // const msg1 = this.state.inputText;
-    // this.props.pushMessage(EventWizHelpers.createUserMessage(this.props.userId, msg1));
-    // Keyboard.dismiss();
-    // this.props.updateStatus(false);
-    // this.props.updateNewGroupName(this.state.inputText);
-    // Helpers.delayShort()
-    // .then(() => {
-    //   this.props.pushMessage(EventWizHelpers.createBotMessage(EventWizHelpers.msg.GROUP_SAVED));
-    //   this.props.updateStatus(EventStatus.NEW_GROUP_SETTINGS);      
-    // });
+      this.props.setLocation(location);      
+      return Helpers.delayDefault()
+    })
+    .then(() => {
+      this.props.pushMessage(EventWizHelpers.createBotMessage(EventWizHelpers.msg.READY_ADD_MESSAGE));
+      this.props.updateStatus(EventStatus.READY_ADD_MESSAGE);
+    })
+  
+    // Helpers.delayLong()
+    // .then(() => {  
+
+    // });  
+  }
+
+  onSend(){
+    this.handleNext(this.state.inputText);
   }
 
   skip(){
-    this.props.setLocation(null);
-    // this.props.updateStatus(false);
+    this.handleNext(null);
   }
 
   render(){
@@ -76,4 +77,4 @@ class PromptLocation extends Component {
 //   return { userId };
 // };
 
-export default connect(null, { updateStatus, setLocation })(PromptLocation)
+export default connect(null, { updateStatus, pushMessage, setLocation })(PromptLocation)

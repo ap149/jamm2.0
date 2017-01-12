@@ -33,7 +33,6 @@ class Day extends Component {
     return isSelected == 1 ? innerContainerSelected : innerContainerTimeSelected
   }
 
-
   getTextStyle(){
     const {
       cell,

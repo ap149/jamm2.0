@@ -15,3 +15,12 @@ export const delayShort = () => {
   })
   return promise;
 }
+
+export const delayLong = () => {
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(function() {
+      resolve();
+    }, 2000);
+  })
+  return promise;
+}

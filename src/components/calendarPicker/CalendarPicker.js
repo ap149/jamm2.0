@@ -29,6 +29,7 @@ class CalendarPicker extends Component {
   }
 
   done(){
+    this.props.updateStatus(false);    
     Actions.pop();
     Helpers.delayDefault()
     .then(() => {

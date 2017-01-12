@@ -25,7 +25,7 @@ import { EventStatus } from './EventStatus';
 import NavBar  from '../navBar/NavBar';
 import EventWizNavBar from './EventWizNavBar';
 import Name from './Name';
-import SelectImage from './SelectImage';
+import ChangeInfo from './ChangeInfo';
 import SelectInvites from './SelectInvites';
 import ChatInfoItem from '../chatView/ChatInfoItem'
 import SelectedInvites from './SelectedInvites';
@@ -35,6 +35,7 @@ import NewGroupName from './NewGroupName';
 import NewGroupSettings from './NewGroupSettings';
 import PromptDates from './PromptDates';
 import PromptLocation from './PromptLocation';
+import Ready from './Ready';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 import ChatBubble from '../chatView/ChatBubble';
 
@@ -90,10 +91,6 @@ class EventWiz extends Component {
         return (
           <Name />
         );
-      case EventStatus.IMAGE:
-        return (
-          <SelectImage />
-        ) 
       case EventStatus.INVITES:
         return (
           <SelectInvites />
@@ -115,6 +112,10 @@ class EventWiz extends Component {
       case EventStatus.PROMPT_LOCATION:
         return (
           <PromptLocation/>
+        ) 
+      case EventStatus.READY_ADD_MESSAGE:
+        return (
+          <Ready addMessage/>
         ) 
       default:
         return (
