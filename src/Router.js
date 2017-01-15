@@ -1,6 +1,8 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import Loading from './components/auth/Loading';
+import Loading from './components/authWiz/Loading';
+import AuthWiz from './components/authWiz/AuthWiz';
+import ChooseCountry from './components/authWiz/ChooseCountry';
 import AuthCheck from './components/auth/AuthCheck';
 import RequestCode from './components/auth/RequestCode';
 import VerifyCode from './components/auth/VerifyCode';
@@ -24,10 +26,11 @@ const RouterComponent = () => {
       barButtonTextStyle={styles.barButtonTextStyle} 
     >    
       <Scene key="loading">
-        <Scene key='loadingscreen' component={Loading} title="Loading..."/>
+        <Scene key='loadingscreen' component={Loading} hideNavBar={true} />
       </Scene>
       <Scene key="auth">
-        <Scene key="requestCode" component={RequestCode} title="Verify Phone" /> 
+        <Scene key="authWiz" component={AuthWiz} hideNavBar={true}/> 
+        <Scene key="chooseCountry" component={ChooseCountry} hideNavBar={true} panHandlers={null} direction="vertical"/> 
         <Scene key="verifyCode" component={VerifyCode} title="Enter Code"/> 
         <Scene key="profile" component={Profile} title="Last Step"/>
         <Scene key="authCheck" component={AuthCheck} title="" />                  

@@ -166,7 +166,7 @@ export default (state = INITIAL_STATE, action) => {
       return Object.assign(
         {},
         state,
-        {dates: newDates}
+        {dates: newDates},
       );   
     case REMOVE_DATE:
       let datesRemoved = state.dates.slice();

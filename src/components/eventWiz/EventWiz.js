@@ -1,5 +1,10 @@
 import Meteor, { createContainer, MeteorComplexListView } from 'react-native-meteor';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import * as _ from 'lodash';
+
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
+
 import React, { Component } from 'react';
 import { 
   ScrollView,
@@ -11,23 +16,19 @@ import {
   Button,
   LayoutAnimation
 } from 'react-native';
-import * as _ from 'lodash';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
-import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Colours, Fonts } from '../styles';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Border } from '../common';
 import { Shadow } from '../common';
+import NavBar  from '../navBar/NavBar';
 import ChatView from '../chatView/ChatView';
+import ChatBubble from '../chatView/ChatBubble';
+import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
-import NavBar  from '../navBar/NavBar';
 import EventWizNavBar from './EventWizNavBar';
 import Name from './Name';
 import ChangeInfo from './ChangeInfo';
 import SelectInvites from './SelectInvites';
-import ChatInfoItem from '../chatView/ChatInfoItem'
 import SelectedInvites from './SelectedInvites';
 import SelectedDates from './SelectedDates';
 import Location from './Location';
@@ -36,26 +37,8 @@ import NewGroupSettings from './NewGroupSettings';
 import PromptDates from './PromptDates';
 import PromptLocation from './PromptLocation';
 import Ready from './Ready';
-import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
-import ChatBubble from '../chatView/ChatBubble';
-
-let botMessage = {
-  type: 'text',
-  fromType: 'bot',
-  fromObj: {userId: null},
-  body: ''
-}
 
 class EventWiz extends Component {
-  constructor(props) {
-    super(props);
-    // EventWizHandlers.launch();
-    // Meteor.call('initEventWiz');
-    this.state = {
-      inputValue: '',
-      contacts: props.contacts
-    }
-  }
 
   componentWillMount(){
     const firstName = this.props.displayName.split(' ')[0]; 
@@ -70,13 +53,7 @@ class EventWiz extends Component {
     Actions.chooseContacts();
   }
 
-
   renderSelectedInvites(){
-    // if (contacts.length === 0) return <View/>
-    // const {
-    //   infoContainer,
-    //   iconContainer
-    // } = styles;
     return (
       <SelectedInvites
         // contacts={contacts}
@@ -144,7 +121,6 @@ class EventWiz extends Component {
     } = styles;
 
     return (
-
         <View style={outerContainer}>
           <EventWizNavBar/>
           <SelectedInvites />
@@ -159,7 +135,6 @@ class EventWiz extends Component {
           {this.renderInputContainer()}
           <KeyboardSpacer/>
         </View>
-
     )
   }
 }
@@ -171,14 +146,6 @@ const styles = {
 
   infoContainer: {
     flexDirection: 'row'
-  },
-
-  iconContainer: {
-    width: 40,
-    minHeight: 40,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: 'green'
   }
 }
 

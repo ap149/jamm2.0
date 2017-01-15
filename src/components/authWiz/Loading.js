@@ -10,6 +10,8 @@ import { loadUser } from '../../actions';
 import store from 'react-native-simple-store';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { Actions } from 'react-native-router-flux';
+import NavBar  from '../navBar/NavBar';
+import { Colours, Fonts } from '../styles';
 
 class Loading extends Component {
   constructor(props) {
@@ -29,7 +31,9 @@ class Loading extends Component {
       store.get("jammUser")
       .then((storedUser) => {
         if (storedUser){
-          this._handleStoredUser(storedUser);
+          console.log(storedUser);
+          Actions.auth({type: 'reset'});
+          // this._handleStoredUser(storedUser);
           return;
         } else {
           Actions.auth({type: 'reset'});
@@ -47,24 +51,26 @@ class Loading extends Component {
 
   render() {
     this._handleConnect();
-
     const {
-      outerContainer
+      innerContainer
     } = styles
 
     return (
-      <View style={outerContainer}>
-     
-        <ActivityIndicator />
+      <View style={{flex: 1}}>
+        <NavBar/>
+        <View style={innerContainer}>
+          <ActivityIndicator />
+        </View>
       </View>
     )
   }
 }
 
 const styles = {
-  outerContainer: {
+  innerContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    // backgroundColor: Colours.appDarkBack
   }
 }
 

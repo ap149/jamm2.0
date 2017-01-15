@@ -16,11 +16,15 @@ class ChatInput extends Component {
     const {
       containerStyle,
       inputStyle,
+      leftLableStyle,
       buttonContainer
     } = styles;
 
     return (
       <View style={containerStyle}>
+        <Text style={leftLableStyle}>
+          {this.props.leftLabel}
+        </Text>
         <AutoGrowingTextInput
           style={inputStyle}
           placeholder={this.props.placeholder}
@@ -29,6 +33,7 @@ class ChatInput extends Component {
           autoFocus={this.props.autoFocus}
           autoCapitalze={this.props.autoCapitalize ? this.props.autocapitalize : "sentences"}
           multiline={!this.props.singleLine}
+          keyboardType={this.props.numeric ? 'numeric' : 'default'}
         />
         <TouchableOpacity
           style={buttonContainer}
@@ -46,7 +51,7 @@ const styles = {
   containerStyle: {
     minHeight: 42,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     // backgroundColor: '#f4f4f4'
   },
 
@@ -60,6 +65,16 @@ const styles = {
     paddingLeft: 12,
     paddingRight: 2,
     maxHeight: 149,
+  },
+
+  leftLableStyle: {
+    fontSize: 14,
+    lineHeight: 16,
+    marginTop: 4,
+    paddingTop: 4,
+    paddingBottom: 6,
+    paddingLeft: 12,
+    paddingRight: 2,
   },
 
   buttonContainer: {

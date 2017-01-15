@@ -2,6 +2,11 @@ export const LOGGED_IN = 'logged_in';
 export const AUTH_CHECK = 'auth_check';
 export const METEOR_CONNECT = 'meteor_connect';
 
+export const PUSH_AUTH_MESSAGE = 'push_auth_message';
+export const UPDATE_AUTH_STATUS = 'update_auth_status';
+export const CHOOSE_COUNTRY = 'choose_country';
+export const ENTER_PHONENUMBER = 'enter_phonenumber';
+
 export const CREATE_USER = 'create_user';
 export const UPDATE_NAME = 'update_name';
 export const LOAD_USER = 'load_user';

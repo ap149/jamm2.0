@@ -72,5 +72,4 @@ export const msg = {
     "Your invitation is ready to send." +
     " Change any options above." +
     " Add a message below if you like."
-  
 }

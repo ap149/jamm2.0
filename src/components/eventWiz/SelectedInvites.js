@@ -42,7 +42,7 @@ class SelectedInvites extends Component {
   }
 
   render(){
-    if (this.props.contacts.length < 1) {
+    if (!this.props.contactsSelected) {
       return <View/>
     }
     const {
@@ -55,7 +55,7 @@ class SelectedInvites extends Component {
     const _this = this;
     return (
       <ChatInfoItem
-        iconName={this.props.contacts.length === 1 ? 'user' : 'users'}
+        iconName={this.props.contacts.length === 1 ? 'user' : 'user'}
         buttonArrow
         onPress={this.onPress.bind(this)}
       >
@@ -111,8 +111,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, contactObjs, newGroupName } = state.eventInfo;
-  return { contacts, contactObjs, newGroupName };
+  const { contacts, contactObjs, newGroupName, contactsSelected } = state.eventInfo;
+  return { contacts, contactObjs, newGroupName, contactsSelected };
 };
 
 export default connect(mapStateToProps, { })(SelectedInvites);

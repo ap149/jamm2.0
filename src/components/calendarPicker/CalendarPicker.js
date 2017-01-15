@@ -29,22 +29,23 @@ class CalendarPicker extends Component {
   }
 
   done(){
-    this.props.updateStatus(false);    
+    if (this.props.datesSelected){
+      Actions.pop();
+      return;
+    }
+
     Actions.pop();
+    this.props.updateStatus(false);
     Helpers.delayDefault()
-    .then(() => {
-      // const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
-      // this.props.pushMessage(msg2);
-      if (!this.props.datesSelected){
-        const str = this.props.dates.length > 1 ? `${this.props.dates.length} dates suggested` : "Date selected";
-        const msg = EventWizHelpers.createAutoMessage(str);
-        this.props.pushMessage(msg);
-        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_LOCATION);
-        this.props.pushMessage(msg2);
-        this.props.updateStatus(EventStatus.PROMPT_LOCATION);
-        this.props.setDatesSelected();
-      }
-    })    
+    .then(() => {        
+      const str = this.props.dates.length > 1 ? `${this.props.dates.length} dates suggested` : "Date selected";
+      const msg = EventWizHelpers.createAutoMessage(str);
+      this.props.pushMessage(msg);
+      const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_LOCATION);
+      this.props.pushMessage(msg2);
+      this.props.updateStatus(EventStatus.PROMPT_LOCATION);
+      this.props.setDatesSelected();
+    })
   }
 
   monthBack(){

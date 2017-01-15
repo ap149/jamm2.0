@@ -80,25 +80,27 @@ class ContactPicker extends Component {
   }
 
   done(){
-    Actions.pop();
-    if (!this.props.contactsSelected){
-      const strJoin = this.props.contacts.length > 1 ? 'contacts' : 'contact';
-      const str = `${this.props.contacts.length} {strJoin} selected`;
-      this.props.updateStatus(false);          
-      Helpers.delayShort()
-      .then(() => {
-        if (this.props.contacts.length > 1){
-          const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
-          this.props.pushMessage(msg2);
-          this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
-        } else {
-          const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
-          this.props.pushMessage(msg2);
-          this.props.updateStatus(EventStatus.PROMPT_DATES);
-        }
-        this.props.setContactsSelected();
-      })
+    if (this.props.contactsSelected){
+      Actions.pop();
+      return;
     }
+    Actions.pop();
+    // const strJoin = this.props.contacts.length > 1 ? 'contacts' : 'contact';
+    // const str = `${this.props.contacts.length} {strJoin} selected`;
+    this.props.updateStatus(false);          
+    Helpers.delayShort()
+    .then(() => {
+      if (this.props.contacts.length > 1){
+        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.NEW_GROUP_NAME);
+        this.props.pushMessage(msg2);
+        this.props.updateStatus(EventStatus.NEW_GROUP_NAME);
+      } else {
+        const msg2 = EventWizHelpers.createBotMessage(EventWizHelpers.msg.PROMPT_DATES);
+        this.props.pushMessage(msg2);
+        this.props.updateStatus(EventStatus.PROMPT_DATES);
+      }
+      this.props.setContactsSelected();
+    })
   }
 
   toggleContact(contactIndex){
