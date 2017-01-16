@@ -21,6 +21,7 @@ class Loading extends Component {
   _handleConnect() {
     console.log("load user called");
     if (this.props.status.connected){
+    // if (true){
       if (this.props.meteorUser){
         console.log("logged in");
         console.log(this.props.meteorUser.userProfile);
@@ -32,8 +33,9 @@ class Loading extends Component {
       .then((storedUser) => {
         if (storedUser){
           console.log(storedUser);
-          Actions.auth({type: 'reset'});
-          // this._handleStoredUser(storedUser);
+          store.delete('jammUser');
+          // Actions.auth({type: 'reset'});
+          this._handleStoredUser(storedUser);
           return;
         } else {
           Actions.auth({type: 'reset'});

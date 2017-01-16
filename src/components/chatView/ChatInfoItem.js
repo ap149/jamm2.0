@@ -48,7 +48,7 @@ class ChatInfoItem extends Component {
       <View>
         <TouchableOpacity style={infoContainer} onPress={this.props.onPress}>
           <View style={iconContainer}>
-            <Icon name={this.props.iconName} size={16} color={Colours.iconShade}/>
+            <Icon name={this.props.iconName} size={18} color={Colours.iconShade}/>
           </View>
           <View style={inviteInfoContainer}>
             {this.props.children}
@@ -90,7 +90,7 @@ const styles = {
 
   textButtonText: {
     color: '#fff',
-    fontSize: 12    
+    fontSize: 14    
   },
 
   itemArrowButton: {

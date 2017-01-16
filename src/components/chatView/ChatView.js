@@ -37,7 +37,7 @@ class ChatView extends Component {
   renderChatBubble(item){
     return (
       <ChatBubble 
-        fromUser={item.fromObj.userId === this.props.userId}
+        fromUser={item.fromObj.userId === this.props.userId || item.fromObj.userId === "tempUser"}
         timestamp={this.getTimeStamp(item.createdAt)}
       >
         {item.body}

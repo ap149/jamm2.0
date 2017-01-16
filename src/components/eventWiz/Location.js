@@ -17,14 +17,7 @@ class Location extends Component {
     if (!this.props.locationSelected) {
       return <View/>
     }
-    const {
-      infoContainer,
-      iconContainer,
-      inviteInfoContainer,
-      itemTextButton,
-      textButtonText
-    } = styles;
-    const _this = this;
+
     return (
       <ChatInfoItem
         iconName='map-marker'

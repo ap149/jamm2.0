@@ -26,7 +26,7 @@ class ChatOption extends Component {
 
     if (this.props.icon){
       return (
-        <Icon name={this.props.icon} size={12} color={this.iconColour()} style={iconStyle}/>
+        <Icon name={this.props.icon} size={14} color={this.iconColour()} style={iconStyle}/>
       )
     } else {
       return <View/>
@@ -66,7 +66,7 @@ const styles = {
   innerContainerDefault: {
     borderColor: Colours.appMain,
     borderWidth: 1,
-    paddingVertical: 6,
+    paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 18,
     flexDirection: 'row',
@@ -74,7 +74,7 @@ const styles = {
   },
 
   innerContainerBorderless: {
-    paddingVertical: 4,
+    paddingVertical: 6,
     paddingHorizontal: 8,
     borderRadius: 3,
     flexDirection: 'row',

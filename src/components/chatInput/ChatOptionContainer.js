@@ -12,7 +12,7 @@ const ChatOptionContainer = ({children}) => {
 const styles = {
   container: {
     minHeight: 42,
-    paddingBottom: 8,
+    paddingBottom: 12,
   }
 }
 

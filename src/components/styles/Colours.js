@@ -15,9 +15,12 @@ const Colours = {
   borderLight: '#444',
   subHeader: '#666',
 
-  appDarkBack: '#001F1C',
-  appMain: '#00C4B4',
-  appLight: '#00DED3',
+  // appDarkBack: '#001F1C',
+  // appMain: '#00C4B4',
+  // appLight: '#00DED3',
+  appDarkBack: '#001C19',
+  appMain: '#00C7C4',
+  appLight: '#00FFFB',
 
   navBarBack: '#002E2A',
   navBarButton: '#00EDDA',

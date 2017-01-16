@@ -33,51 +33,27 @@ class EnterCode extends Component {
 
   onSend(){
     this.props.updateAuthStatus(false);
-    Meteor.call('verifyCode', this.props.phoneNumber, this.props.country.countryCode, this.state.inputText, (err, res) => {
-      if (err){
-        console.log(err);
+    Meteor.call('updateName', this.state.inputText, this.props.appVersion, this.props.userStatus, (err, res) => {
+      if (res){
+        this.props.pushAuthMessage(ChatHelpers.createBotMessage(AuthWizHelpers.MESSAGE.COMPLETE));
+        this.props.updateAuthStatus(AuthWizHelpers.STATUS.COMPLETE);
       } else {
-        console.log(res);
-        const obj = {
-          username: this.props.country.countryCode + this.props.phoneNumber,
-          password: res
-        };
-        console.log(obj);
-        store.save('jammUser', obj)
-        .then(() => store.get('jammUser'))
-        .then(userObj => {
-          const pwd = userObj.password;
-          Meteor.Accounts.createUser(userObj, (err) => {
-            if (err){
-              console.log(err);
-            } else {
-              Meteor.loginWithPassword(userObj.username, pwd, (err) => {
-                if (!err){
-                  this.props.pushAuthMessage(ChatHelpers.createBotMessage(AuthWizHelpers.MESSAGE.CODE_VERIFIED));
-                  this.props.updateAuthStatus(AuthWizHelpers.STATUS.ENTER_NAME);  
-                } else {
-                  console.log(err);
-                }
-              })
-            }
-          });
-        });
-      };
-    });
+        console.log("handle error");
+      }
+    });    
   }
 
   render(){
     return (
       <View>
         <ChatInput
-          placeholder="Enter 4-digit code..."
+          placeholder="Enter your name..."
           autoCapitalize={true}
           icon="arrow-circle-right"
           value={this.state.inputText}
           onChangeText={this.onEnterText.bind(this)}
           onSend={this.onSend.bind(this)}
           disabled={this.state.inputText === ''}
-          numeric
         />
       </View>
     );
@@ -85,9 +61,9 @@ class EnterCode extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { status, country, phoneNumber } = state.auth;
+  const { appVersion, userStatus, status, country, phonenumber } = state.auth;
 
-  return { status, country, phoneNumber };
+  return { appVersion, userStatus, status, country, phonenumber };
 };
 
 export default connect(mapStateToProps, { updateAuthStatus, pushAuthMessage })(EnterCode);

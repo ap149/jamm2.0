@@ -32,13 +32,15 @@ class EnterNumber extends Component {
 
   onSend(){
     // setTimeout(function() {
-    const msg1 = this.state.inputText;
-    console.log(msg1);
+    const msg1 = `+${this.props.country.countryCode}${this.state.inputText}`;
+    this.props.pushAuthMessage(ChatHelpers.createUserMessage('tempUser', msg1));
     this.props.updateAuthStatus(false);   
-    this 
+    this.props.enterPhonenumber(this.state.inputText);
     Meteor.call('sendVerificationCode', this.state.inputText, this.props.country.countryCode, (err, res) => {
       if (err) {
-        console.log(err);
+        this.props.pushAuthMessage(ChatHelpers.createBotMessage(AuthWizHelpers.MESSAGE.SEND_CODE_ERROR));
+        this.props.updateAuthStatus(AuthWizHelpers.STATUS.INIT);
+        return;
       } else {
         console.log("success");
         console.log(res);
@@ -82,9 +84,13 @@ class EnterNumber extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { status, country } = state.auth;
+  const { appVersion, userStatus, status, country } = state.auth;
 
-  return { status, country };
+  return { appVersion, userStatus, status, country };
 };
 
-export default connect(mapStateToProps, { updateAuthStatus, pushAuthMessage, enterPhonenumber })(EnterNumber);
+export default connect(mapStateToProps, { 
+  updateAuthStatus,
+  pushAuthMessage,
+  enterPhonenumber
+})(EnterNumber);

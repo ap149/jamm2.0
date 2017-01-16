@@ -171,7 +171,7 @@ const styles = {
   },
 
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
   },
 

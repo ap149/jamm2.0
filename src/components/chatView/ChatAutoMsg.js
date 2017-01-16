@@ -32,7 +32,7 @@ const styles = {
   },
 
   textStyle: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '400',
   }
 }

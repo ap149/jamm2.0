@@ -43,19 +43,19 @@ const NavTextButton = ({onPress, disabled, children, fixed, buttonRight}) => {
 const styles = {
   textButton: {
     color: Colours.navBarButton,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
   },
   textButtonDisabled: {
     color: Colours.navBarButtonDisabled,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9
   },  
   textButtonFixedWidth: {
     color: Colours.navBarButton,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
     maxWidth: 72,
@@ -63,7 +63,7 @@ const styles = {
   },
   textButtonDisabledFixedWidth: {
     color: Colours.navBarButtonDisabled,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
     maxWidth: 72,
@@ -72,21 +72,21 @@ const styles = {
   textButtonRight: {
     textAlign: 'right',
     color: Colours.navBarButton,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
   },
   textButtonDisabledRight: {
     textAlign: 'right',
     color: Colours.navBarButtonDisabled,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9
   },  
   textButtonFixedWidthRight: {
     textAlign: 'right',
     color: Colours.navBarButton,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
     maxWidth: 72,

@@ -28,8 +28,11 @@ import ChatView from '../chatView/ChatView';
 import ChatBubble from '../chatView/ChatBubble';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 
+import Banner from './Banner';
 import EnterPhone from './EnterPhone';
 import EnterCode from './EnterCode';
+import EnterName from './EnterName';
+import Complete from './Complete';
 
 class AuthWiz extends Component{
 
@@ -56,6 +59,14 @@ class AuthWiz extends Component{
         return (
           <EnterCode />
         );      
+      case AuthWizHelpers.STATUS.ENTER_NAME:
+        return (
+          <EnterName />
+        );      
+      case AuthWizHelpers.STATUS.COMPLETE:
+        return (
+          <Complete />
+        );      
       default:
         return (
           <ChatInputEmpty></ChatInputEmpty>
@@ -75,10 +86,8 @@ class AuthWiz extends Component{
   render(){
     return (
       <View style={{flex: 1}}>
-        <NavBar
-          title="Jamm"
-        >
-        </NavBar>
+
+        <Banner />
         <Shadow />  
         <ChatView 
           chatData={this.getDataSource()}

@@ -81,6 +81,7 @@ class ContactPicker extends Component {
 
   done(){
     if (this.props.contactsSelected){
+      console.log("contacts selected");
       Actions.pop();
       return;
     }
@@ -312,9 +313,9 @@ const styles = {
 
   textButton: {
     color: Colours.navBarButton,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
-    paddingVertical: 9,
+    paddingVertical: 7,
   },
 
   innerContainer: {
@@ -327,7 +328,7 @@ const styles = {
     paddingHorizontal: 10,
     paddingVertical: 6,
     flexDirection: 'row',
-    backgroundColor: '#f7f7f7' 
+    backgroundColor: '#f1f1f1' 
   },
 
   infoContainer: {

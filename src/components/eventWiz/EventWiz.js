@@ -74,9 +74,7 @@ class EventWiz extends Component {
         ) 
       case EventStatus.NEW_GROUP_NAME:
         return (
-          <NewGroupName 
-            passedData={this.state.contacts}
-          />
+          <NewGroupName />
         ) 
       case EventStatus.NEW_GROUP_SETTINGS:
         return (

@@ -1,14 +1,17 @@
 import {
   UPDATE_AUTH_STATUS,
   PUSH_AUTH_MESSAGE,
-  ENTER_PHONENUMBER
+  ENTER_PHONENUMBER,
+  UPDATE_NAME
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  appVersion: 2,
+  userStatus: 2,
   status: false,
   messages: [],
   country: {countryName: 'United Kingdom', countryCode: '44'},
-  phonenumber: null  
+  phoneNumber: null  
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,8 +34,8 @@ export default (state = INITIAL_STATE, action) => {
       return Object.assign(
         {},
         state,
-        {phonenumber: action.payload}
-      )      
+        {phoneNumber: action.payload}
+      )           
     default:
       return state;
   }

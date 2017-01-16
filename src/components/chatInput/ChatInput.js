@@ -40,7 +40,7 @@ class ChatInput extends Component {
           onPress={this.props.onSend}
           disabled={this.props.disabled}
         >
-          <Icon name={this.props.icon} size={33} color={this.props.disabled ? Colours.appDisabled : Colours.app} />
+          <Icon name={this.props.icon} size={38} color={this.props.disabled ? Colours.appDisabled : Colours.app} />
         </TouchableOpacity>
       </View>
     );
@@ -51,17 +51,17 @@ const styles = {
   containerStyle: {
     minHeight: 42,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     // backgroundColor: '#f4f4f4'
   },
 
   inputStyle: {
     flex: 1,
-    fontSize: 14,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 20,
     marginTop: 4,
     paddingTop: 4,
-    paddingBottom: 6,
+    paddingBottom: 4,
     paddingLeft: 12,
     paddingRight: 2,
     maxHeight: 149,
@@ -69,7 +69,7 @@ const styles = {
 
   leftLableStyle: {
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 14,
     marginTop: 4,
     paddingTop: 4,
     paddingBottom: 6,
@@ -78,7 +78,7 @@ const styles = {
   },
 
   buttonContainer: {
-    minHeight: 42,
+    minHeight: 46,
     paddingHorizontal: 12,
     justifyContent: 'center',   
   }

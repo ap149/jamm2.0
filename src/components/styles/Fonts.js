@@ -23,8 +23,8 @@ const Fonts = {
     fontWeight: '500'
   },
   itemH2: {
-    fontSize: 14,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 24,
     fontWeight: '500'
   },
   itemH2Alt: {
@@ -43,7 +43,7 @@ const Fonts = {
 
   },
   itemNote: {
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 20,
     color: Colours.subHeader
   },
@@ -54,19 +54,20 @@ const Fonts = {
   itemSubheader: {
     fontSize: 14,
   },
+  
   chatInfoHeader: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     lineHeight: 20,
     color: '#fff'
   },
   chatInfoSubheader: {
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 20,
     color: '#fff'
   },
   chatInfoNote: {
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 20,
     color: '#fff'
   }  

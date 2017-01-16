@@ -9,23 +9,8 @@ import {
 const versionNumber = 2;
 const userStatus = 2;
 
-export const createUser = (newUser) => {
-  return {
-    type: CREATE_USER,
-    payload: newUser
-  }
-}
 
-export const updateName = (userId, displayName) => {
-  return (dispatch) => {
-    Meteor.call('updateName', displayName, versionNumber, userStatus, (err, res) => {
-      if (res){
-        dispatch({type: UPDATE_NAME, payload: res});
-        Actions.drawer({type: 'reset'});
-      }
-    });
-  }
-}
+
 
 export const loadUser = (userObj) => {
   return {

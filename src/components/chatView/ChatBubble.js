@@ -55,6 +55,7 @@ class ChatBubble extends Component {
       leftArrowContainer,
       leftArrowInner,
       leftInnerSpace,
+      leftBubbleText,
       leftTimestamp
     } = styles;
 
@@ -65,7 +66,7 @@ class ChatBubble extends Component {
             <View style={leftArrowInner} />
           </View>      
           <View style={leftBubbleContainer}>
-            {typing ? this.renderTyping() : <Text>{this.props.children}</Text>}
+            {typing ? this.renderTyping() : <Text style={leftBubbleText}>{this.props.children}</Text>}
           </View>
         </View>
         <View style={leftInnerSpace}/>
@@ -177,6 +178,11 @@ const styles = {
     borderBottomRightRadius: 14
   },
 
+  leftBubbleText: {
+    fontSize: 16,
+    lineHeight: 18
+  },
+
   leftTimestamp: {
     fontSize: 10,
     textAlign: 'right',
@@ -224,7 +230,9 @@ const styles = {
   },
 
   rightBubbleText: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: 16,
+    lineHeight: 18
   },
 
   rightTimestamp: {

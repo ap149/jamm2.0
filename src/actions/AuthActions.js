@@ -5,8 +5,12 @@ import {
   UPDATE_AUTH_STATUS,
   PUSH_AUTH_MESSAGE,
   CHOOSE_COUNTRY,
-  ENTER_PHONENUMBER
+  ENTER_PHONENUMBER,
+  UPDATE_NAME
 } from './types';
+
+const versionNumber = 2;
+const userStatus = 2;
 
 export const updateAuthStatus = (status) => {
   return {
@@ -32,5 +36,16 @@ export const enterPhonenumber = (number) => {
   return {
     type: ENTER_PHONENUMBER,
     payload: number
+  }
+}
+
+export const updateName = (userId, displayName) => {
+  return (dispatch) => {
+    Meteor.call('updateName', displayName, versionNumber, userStatus, (err, res) => {
+      if (res){
+        dispatch({type: UPDATE_NAME, payload: res});
+        // Actions.drawer({type: 'reset'});
+      }
+    });
   }
 }

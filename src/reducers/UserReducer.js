@@ -21,15 +21,6 @@ export default (state = INITIAL_STATE, action) => {
         {userId: action.payload._id},
         {phoneNumber: action.payload.username}
       );
-    case UPDATE_NAME:
-      return Object.assign(
-        {},
-        state,
-        {displayName: action.payload.displayName},
-        {phoneNumber: action.payload.phoneNumber},
-        {appVersion: action.payload.appVersion},
-        {status: action.payload.status}
-      );
     case LOAD_USER:
       return Object.assign(
         {},
