@@ -51,14 +51,13 @@ export const createAutoMessage = (body) => {
   }
 }
 
+
+
 export const initMsg = (name) => {
   const msg = `Hi ${name} - let's set up a new event. What are you organising?`;
   return createBotMessage(msg);
 }
 
-export const chooseImageMessage = (eventName) => {
-  return `Do you want to add an image or change the icon above for ${eventName}?`;
-}
 
 export const msg = {
   SKIP: 'Not right now.',

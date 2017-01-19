@@ -32,12 +32,13 @@ export const createBotMessage = (body) => {
   }
 }
 
-export const createUserMessage = (userId, body) => {
+export const createUserMessage = (userObj, body) => {
   return {
     type: 'text',
     fromType: 'user',
-    fromObj: {userId: userId},
+    fromObj: userObj,
     body: body,
+    created: new Date()
   }
 }
 

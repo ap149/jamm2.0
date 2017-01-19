@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import Meteor, { createContainer } from 'react-native-meteor';
+import Meteor, { createContainer, MeteorListView } from 'react-native-meteor';
 import store from 'react-native-simple-store';
 import { loadUser } from '../../actions';
 import EventListItem from './EventListItem';
@@ -26,14 +26,39 @@ class EventList extends Component {
   }
 
   logout(){
-    console.log(Meteor.user());
+    console.log(this.props.eventList);
+    // console.log(Meteor.user());
     // console.log(this.props.user);
-    Meteor.logout();
-    Actions.auth({type: "reset"});
+    // Meteor.logout();
+    // Actions.auth({type: "reset"});
   }
 
   newEvent(){
     Actions.eventWiz();
+  }
+
+  // renderEventItems(){
+  //   console.log(this.props.eventList);
+  //   const eventList = this.props.eventList
+  //   let eventItems = [];
+  //   for (i=0; i< eventList.length; i++){
+  //     eventList.push(
+  //       <View>
+  //         <Text>{eventList[i].eventName}</Text>
+  //         <Text>{eventList[i]._id}</Text>
+  //       </View>
+  //     )
+  //   }
+  //   return eventItems;
+  // }
+
+  renderRow(eventItem){
+    return (
+      <View>
+        <Text>{eventItem.eventName}</Text>
+        <Text>{eventItem._id}</Text>
+      </View>
+    )
   }
 
   render() {
@@ -55,6 +80,11 @@ class EventList extends Component {
           title="Logout"
           color={Colours.app}          
         />
+        <MeteorListView
+          collection="eventsList"
+          options={{sort: {updated: -1}}}
+          renderRow={this.renderRow}
+        />        
       </View>
     )
   }
@@ -73,9 +103,9 @@ const mapStateToProps = (state) => {
 };
 
 const EventListConnected = createContainer(params=>{
-  // Meteor.subscribe('items');
+  Meteor.subscribe('eventsList');
   return {
-    // eventList: Meteor.collection('items').find(),
+    // eventList: Meteor.collection('events').find(),
     // meteorUser: Meteor.user(),
     // status: Meteor.status()
   };

@@ -17,7 +17,8 @@ import {
   REMOVE_DATE,
   CLEAR_DATES,
   SET_DATES_SELECTED,
-  SET_LOCATION
+  SET_LOCATION,
+  INVITATION_MESSAGE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -35,7 +36,9 @@ const INITIAL_STATE = {
   dates: [],
   datesSelected: false,
   location: null,
-  locationSelected: false
+  locationSelected: false,
+  eventMessages: [],
+  invitationMessageAdded: false
 };
 
 toggleUser = function(contacts, contactIndex){
@@ -213,6 +216,14 @@ export default (state = INITIAL_STATE, action) => {
         {},
         state,
         {dates: []}
+      )      
+    case INVITATION_MESSAGE:
+      let newEventMessages = [action.payload];
+      return Object.assign(
+        {},
+        state,
+        {eventMessages: newEventMessages},
+        {invitationMessageAdded: true}
       )      
     default:
       return state;

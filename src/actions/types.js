@@ -29,3 +29,4 @@ export const REMOVE_DATE = 'remove_date';
 export const CLEAR_DATES = 'clear_dates';
 export const SET_DATES_SELECTED = 'set_dates_selected';
 export const SET_LOCATION = 'set_location';
+export const INVITATION_MESSAGE = 'invitation_message';

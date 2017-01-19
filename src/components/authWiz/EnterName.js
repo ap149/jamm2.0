@@ -32,8 +32,9 @@ class EnterCode extends Component {
   }
 
   onSend(){
+    this.props.pushAuthMessage(ChatHelpers.createUserMessage('tempUser', this.state.inputText));    
     this.props.updateAuthStatus(false);
-    Meteor.call('updateName', this.state.inputText, this.props.appVersion, this.props.userStatus, (err, res) => {
+    Meteor.call('updateName', this.props.country.countryCode, this.props.phoneNumber, this.state.inputText, this.props.appVersion, this.props.userStatus, (err, res) => {
       if (res){
         this.props.pushAuthMessage(ChatHelpers.createBotMessage(AuthWizHelpers.MESSAGE.COMPLETE));
         this.props.updateAuthStatus(AuthWizHelpers.STATUS.COMPLETE);
@@ -61,9 +62,9 @@ class EnterCode extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { appVersion, userStatus, status, country, phonenumber } = state.auth;
+  const { appVersion, userStatus, status, country, phoneNumber } = state.auth;
 
-  return { appVersion, userStatus, status, country, phonenumber };
+  return { appVersion, userStatus, status, country, phoneNumber };
 };
 
 export default connect(mapStateToProps, { updateAuthStatus, pushAuthMessage })(EnterCode);

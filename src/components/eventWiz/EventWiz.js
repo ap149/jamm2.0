@@ -20,12 +20,15 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Border } from '../common';
 import { Shadow } from '../common';
 import NavBar  from '../navBar/NavBar';
+
 import ChatView from '../chatView/ChatView';
 import ChatBubble from '../chatView/ChatBubble';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
+
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from './EventStatus';
 import EventWizNavBar from './EventWizNavBar';
+
 import Name from './Name';
 import ChangeInfo from './ChangeInfo';
 import SelectInvites from './SelectInvites';
@@ -36,7 +39,7 @@ import NewGroupName from './NewGroupName';
 import NewGroupSettings from './NewGroupSettings';
 import PromptDates from './PromptDates';
 import PromptLocation from './PromptLocation';
-import Ready from './Ready';
+import SendInvitation from './SendInvitation';
 
 class EventWiz extends Component {
 
@@ -90,7 +93,7 @@ class EventWiz extends Component {
         ) 
       case EventStatus.READY_ADD_MESSAGE:
         return (
-          <Ready addMessage/>
+          <SendInvitation addMessage/>
         ) 
       default:
         return (
@@ -100,7 +103,7 @@ class EventWiz extends Component {
   }
 
   renderWaiting(){
-    if (this.props.status) return <View/>;
+    if (this.props.status && (this.props.status != EventStatus.SENDING)) return <View/>;
     return (
       <ChatBubble 
         typing

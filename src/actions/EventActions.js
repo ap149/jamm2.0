@@ -18,7 +18,8 @@ import {
   REMOVE_DATE,
   CLEAR_DATES,
   SET_DATES_SELECTED,
-  SET_LOCATION
+  SET_LOCATION,
+  INVITATION_MESSAGE
 } from './types';
 
 export const pushMessage = (msgObj) => {
@@ -143,3 +144,9 @@ export const setStatusLoading = () => {
   }
 }
 
+export const invitationMessage = (msgObj) => {
+  return {
+    type: INVITATION_MESSAGE,
+    payload: msgObj
+  }
+}

@@ -10,6 +10,7 @@ import { NavTextButton } from '../navBar/NavTextButton';
 import AvatarIcon from '../avatar/AvatarIcon';
 import { Colours, Fonts } from '../styles';
 import { Border } from '../common';
+import { EventStatus } from '../eventWiz/EventStatus';
 
 class EventWizNavBar extends Component {
 
@@ -105,6 +106,7 @@ class EventWizNavBar extends Component {
       <NavBar
         buttonLeftPress={this.pressCancel.bind(this)}
         buttonLeftLabel="Cancel"
+        buttonLeftDisabled={this.props.status == EventStatus.SENDING}
         // buttonRightLabel={this.props.eventName ? 'Change' : false}
       >
         {this.renderMain()}
@@ -129,8 +131,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected } = state.eventInfo;
-  return { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected };
+  const { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected, status } = state.eventInfo;
+  return { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected, status };
 };
 
 export default connect(mapStateToProps, { resetEventInfo })(EventWizNavBar);

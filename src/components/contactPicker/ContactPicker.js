@@ -41,7 +41,7 @@ class ContactPicker extends Component {
       } else {
         phoneContacts = contacts;
         phoneContacts.map(function(obj){
-          obj.displayName = obj.givenName + " " + obj.familyName;
+          obj.displayName = `${obj.givenName}${obj.familyName ? ' ' + obj.familyName : ''}`;
         });
         phoneContacts.sort(function(a, b){
           var nameA = a.displayName.toUpperCase(); // ignore upper and lowercase

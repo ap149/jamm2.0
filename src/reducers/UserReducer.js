@@ -7,9 +7,11 @@ import {
 const INITIAL_STATE = {
   userId: '',
   displayName: '',
+  countryCode: '',
   phoneNumber: '',
   appVersion: '',
-  status: ''
+  status: '',
+  userObj: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,14 +24,20 @@ export default (state = INITIAL_STATE, action) => {
         {phoneNumber: action.payload.username}
       );
     case LOAD_USER:
+      let loadedUserObj = {
+        userId: action.payload.userId,
+        displayName: action.payload.displayName
+      }
       return Object.assign(
         {},
         state,
         {userId: action.payload.userId},
+        {countryCode: action.payload.countryCode},
         {phoneNumber: action.payload.phoneNumber},
         {displayName: action.payload.displayName},
         {appVersion: action.payload.appVersion},
-        {status: action.payload.status}        
+        {status: action.payload.status},
+        {userObj: loadedUserObj}        
       );
     default:
       return state;

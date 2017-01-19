@@ -33,7 +33,7 @@ class Loading extends Component {
       .then((storedUser) => {
         if (storedUser){
           console.log(storedUser);
-          store.delete('jammUser');
+          // store.delete('jammUser');
           // Actions.auth({type: 'reset'});
           this._handleStoredUser(storedUser);
           return;
@@ -48,6 +48,7 @@ class Loading extends Component {
 
   _handleStoredUser(storedUser) {
     console.log("login stored user");
+    console.logI
     return;
   }
 

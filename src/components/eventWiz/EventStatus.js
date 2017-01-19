@@ -7,7 +7,8 @@ const EventStatus = {
   NEW_GROUP_SETTINGS: 'new_group_settings',
   PROMPT_DATES: 'prompt_dates',
   PROMPT_LOCATION: 'prompt_location',
-  READY_ADD_MESSAGE: 'ready_add_message'
+  READY_ADD_MESSAGE: 'ready_add_message',
+  SENDING: 'sending'
 }
 
 export { EventStatus }
