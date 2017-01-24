@@ -1,206 +1,240 @@
+import Meteor from 'react-native-meteor';
+import moment from 'moment';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { setEventId } from '../../actions';
 import React, { Component } from 'react';
 import { 
   View, 
   Text, 
   TouchableOpacity
 } from 'react-native';
-import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemIconButton from './ItemIconButton';
 import RowButtonIcon from './RowButtonIcon';
+import AvatarIcon from '../avatar/AvatarIcon';
 import { ListThumbnail, Border, ActionButton } from '../common';
 import { Colours, Fonts } from '../styles';
 
 class EventListItem extends Component {
-  constructor(){
-    super();
-
-    this.state = {
-      showInfo: false
-    };
+  constructor(props){
+    super(props);
   }
 
-  renderInfo(){
-    const {
-      cardRow,
-      cardInfoContainer,
-      cardRowButton,
-      rowInfoContainer,
-    } = styles;
+  onPress(){
+    console.log(this.props.eventItem);
+    this.props.setEventId(this.props.eventItem._id);
+    Actions.eventDetail({eventId: this.props.eventItem._id});
+  }
 
-    if (this.state.showInfo){
-      return (
-        <View style={cardInfoContainer}>
-          <View style={cardRow}>
-            <RowButtonIcon>calendar-o</RowButtonIcon>
-            <Text>dates</Text>
-          </View>
-          <View style={cardRow}>
-            <RowButtonIcon>map-marker</RowButtonIcon>
-            <Text>dates</Text>
-          </View>
-          <View style={cardRow}>
-            <RowButtonIcon>user</RowButtonIcon>
-            <View style={rowInfoContainer}>
-              <Text style={Fonts.itemSubheader}>Group name</Text>
-              <Text style={Fonts.itemNote}>5 people</Text>
-            </View>
-          </View>
-          <View style={cardRow}>
-            <RowButtonIcon>comments</RowButtonIcon>
-            <TouchableOpacity 
-              style={cardRowButton}
-              onPress={() => console.log('pressed')}>
-              <Text>Messages</Text>
-            </TouchableOpacity>
-          </View>          
-        </View>  
-      )
+  renderImg(url){
+    return (
+      <View>
+        <Text>{url}</Text>
+      </View>
+    )
+  }
+
+  renderIcon(iconName){
+    return (
+      <AvatarIcon
+        large
+        iconName={iconName}
+      />
+    )
+  }
+
+  renderWith(){
+    const {
+      users,
+      groupName
+    } = this.props.eventItem;
+
+    let str;
+    if (groupName){
+      str = `with ${groupName}`; 
     }
+    if (users.length > 2){
+      str = `you and ${users.length - 1} others`;
+    }
+    if (users.length == 2){
+      const bool = (users[0].userId == Meteor.userId());
+      str = bool ? `with ${users[1].displayName}` : `with ${users[0].displayName}`;
+    }
+    return (
+      <Text style={Fonts.itemH3}>{str}</Text>
+    )
+  }
+
+  renderNote(){
+    const {
+      dateOptions
+    } = this.props.eventItem    
+
+    let str;
+    if (dateOptions.length == 1){
+      let 
+        dateObj = dateOptions[0],
+        startTime = '',
+        endTime = '';
+      if (dateObj.startTime) {
+        startTime = `, ${moment(dateObj.startTime).format("h:mma")}`;
+      }
+      if (dateObj.endTime) {
+        endTime = ` - ${moment(dateObj.endTime).format("h:mma")}`;
+      }
+      str = `${moment(dateObj.date).format("ddd D MMM")}${startTime}${endTime}`
+    } else {
+      str = `${dateOptions.length} dates suggested`;
+    }
+
+    return (
+      <Text style={Fonts.itemNote}>{str}</Text>
+    )
   }
 
   render(){
     const {
-      outerContainer,
-      cardContainer,
-      cardHeaderContainer,
-      thumbnail,
-      cardHeader,
-      eventTitleContainer,
-      eventOrganiserContainer,
-      eventStatusContainer,
-      cardFooterContainer,
-      cardFooterMainButton
+      updated,
+      imgUrl,
+      iconName,
+      eventName
+    } = this.props.eventItem
+
+    const {
+      itemContainer,
+      avatarContainer,
+      infoContainer,
+      infoItemContainer,
+      itemHeaderContainer,
+      itemEventNameContainer,
+      itemTimestampContainer,
+      itemHeader,
+      itemTimestamp,
+      itemSubheader,
+      itemNote,
+      itemPointer
     } = styles;
 
+    const timeFormatObj = {
+      sameDay: 'h:mma',
+      nextDay: '[Tomorrow]',
+      nextWeek: 'dddd',
+      lastDay: 'Yday h:mma',
+      lastWeek: 'ddd h:mma',
+      sameElse: 'DD/MM/YYYY'      
+    }
+    // console.log(this.props.eventItem);
     return (
-      <View style={outerContainer}>
-        <View style={cardContainer}>
-          <View style={cardHeaderContainer}>
-            <ListThumbnail />
-            <View style={cardHeader}>
-              <View style={eventTitleContainer}>
-                <Text
-                  numberOfLines={2} 
-                  style={Fonts.itemTitle}>MTS Reunion drinks  
-                </Text>
-              </View>
-              <Text style={[eventOrganiserContainer, Fonts.itemSubheader]}>arranged by J R Hartley</Text>          
-              <Text style={[eventStatusContainer, Fonts.itemNote]}>Status: confirmed</Text>          
+      <View>      
+        <TouchableOpacity style={itemContainer} onPress={this.onPress.bind(this)}>
+          
+          <View style={avatarContainer}>
+            {imgUrl ?
+              this.renderImg(imgUrl)
+              :
+              this.renderIcon(iconName)
+            }
+          </View>
+
+          <View style={infoContainer}>
+            <View style={infoItemContainer}>
+                <View style={itemEventNameContainer}>
+                  <Text style={Fonts.itemH2}>
+                    {eventName}
+                  </Text>
+                </View>
+                <View style={itemTimestampContainer}>
+                  <Text style={itemTimestamp}>{moment(updated).calendar(null, timeFormatObj)}</Text>
+                </View>
+            </View>
+            <View style={infoItemContainer}>
+              {this.renderWith()}
+            </View>
+            <View style={infoItemContainer}>
+              {this.renderNote()}
             </View>
           </View>
-          {this.renderInfo()}
-          <TouchableOpacity 
-            style={cardFooterContainer}
-            onPress={() => this.setState({showInfo: !this.state.showInfo})}
-          >
-            <Icon name={this.state.showInfo ? "chevron-up" : "chevron-down"} size={16} color="#444" />
-          </TouchableOpacity>
-        </View>
-        <Border/>
+
+          <View style={itemPointer}>
+            <Icon name='angle-right' size={24} color={Colours.lightText}/>          
+          </View>            
+
+        </TouchableOpacity>
       </View>
     );
 
   }
 };
 
-
-
 const styles = {
-  outerContainer: {
-    marginTop: 12,
-    marginHorizontal: 8,
-  },
-
-  cardContainer: {
-    // flexDirection: 'row',
-    // alignItems: 'center'
-  },
-
-  cardHeaderContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#eee'
-    // alignItems: 'center'
-  },
-
-  thumbnail: {
-    width: 50,
-    height: 50,
-    borderColor: 'green',
-    borderWidth: 1
-  },
-
-  cardHeader: {
+  itemContainer: {
+    borderBottomWidth: 1,
+    borderColor: Colours.borderColor,
     flex: 1,
-    flexDirection: 'column',
-    paddingVertical: 8,
+    flexDirection: 'row',
+    paddingTop: 4,
+    paddingBottom: 6,
+  },
+
+  avatarContainer: {
+    paddingVertical: 6,
+    paddingHorizontal: 6,
+    justifyContent: 'center'
+  },
+
+  infoContainer: {
+    flex: 1,
+    // paddingLeft: 8,
+    paddingTop: 2
+  },
+
+  infoItemContainer: {
+    flexDirection: 'row',
+  },
+
+  itemHeaderContainer: {
+    flexDirection: 'row',
+    // alignContent: 'center',
+  },
+
+  itemEventNameContainer: {
+    flex: 1
+  },
+
+  itemTimestampContainer: {
+    // flex: 1
+    justifyContent: 'center'
+  },
+
+  itemHeader: {
+    fontSize: 16,
+    lineHeight: 20,
+    // fontWeight: 'bold'
+  },
+
+  itemTimestamp: {
+    fontSize: 12,
+    color: '#666'
+  },
+
+  itemSubheader: {
+    fontSize: 16,
+    lineHeight: 20
+  },
+
+  itemNote: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#666'
+    // color: Colours.appMain
+  },
+
+  itemPointer: {
     paddingRight: 8,
-    // justifyContent: 'space-between',
-    // borderColor: 'green',
-    // borderWidth: 1
-  },
-
-  eventTitleContainer: {
-    flex: 2,
-    // paddingBottom: 3,
-    // borderColor: 'green',
-    // borderWidth: 1    
-  },
-  
-  
-  eventOrganiserContainer: {
-    paddingTop: 3,
-    flex: 1,
-    // alignItems: 'center',
-    // borderColor: 'green',
-    // borderWidth: 1    
-  },
-
-  eventStatusContainer: {
-    flex: 1,
-    paddingTop: 3,
-    // borderColor: 'green',
-    // borderWidth: 1    
-  },
-
-  itemButtonContainer: {
-    flex: 2,
-    flexDirection: 'row',
-
-  },
-
-  cardInfoContainer: {
-
-  },
-
-  cardRow: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-
-  cardRowButton: {
-    flex: 1,
-    paddingVertical: 10,
-    // borderColor: 'green',
-    // borderWidth: 1    
-  },
-
-  rowInfoContainer: {
-    justifyContent: 'space-between'
-  },
-
-  cardFooterContainer: {
-    // flexDirection: 'row'
-    alignItems: 'center',
-    paddingVertical: 8
-  },
-
-  cardFooterMainButton: {
-    flex: 1,
-    alignContent: 'center',
-    paddingVertical: 12
+    paddingLeft: 12,
+    justifyContent: 'center'
   }
-
 }
 
-export default EventListItem;
+export default connect(null, { setEventId })(EventListItem);

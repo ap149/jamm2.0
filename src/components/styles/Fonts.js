@@ -37,11 +37,6 @@ const Fonts = {
     fontSize: 14,
     lineHeight: 20,
   },
-  itemH4: {
-    fontSize: 12,
-    lineHeight: 20,
-
-  },
   itemNote: {
     fontSize: 14,
     lineHeight: 20,

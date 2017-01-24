@@ -23,18 +23,19 @@ class NavBar extends Component {
   }
 
   renderSideMenuButton(){
-    const {
-      sideMenuButtonOuterContainer,
-      sideMenuButton,
-    } = styles;
-
     if (!this.props.sideMenuButton){
       return <View/>
     }
+
+    const {
+      leftIconButtonOuter,
+      leftIconButtonInner,
+    } = styles;
+    
     return (
-      <View style={sideMenuButtonOuterContainer}>
+      <View style={leftIconButtonOuter}>
         <TouchableOpacity 
-          style={sideMenuButton}
+          style={leftIconButtonInner}
           onPress={this.toggleSideMenu.bind(this)} >
           <Icon name="bars" size={21} color={Colours.navBarButton}/>
         </TouchableOpacity>
@@ -42,6 +43,27 @@ class NavBar extends Component {
     )
   }
   
+  renderButtonLeftIcon(){
+    if (!this.props.buttonLeftIcon){
+      return <View/>
+    }
+
+    const {
+      leftIconButtonOuter,
+      leftIconButtonInner,
+    } = styles;
+    
+    return (
+      <View style={leftIconButtonOuter}>
+        <TouchableOpacity 
+          style={leftIconButtonInner}
+          onPress={this.props.buttonLeftPress}>
+          <Icon name={this.props.buttonLeftIcon} size={21} color={Colours.navBarButton}/>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   renderButtonLeftLabel(){
     if (!this.props.buttonLeftLabel){
       return <View/>
@@ -119,6 +141,7 @@ class NavBar extends Component {
       <View style={outerContainer}>
         {this.renderSideMenuButton()}
         {this.renderButtonLeftLabel()}
+        {this.renderButtonLeftIcon()}
         {this.renderMain()}
         {this.renderButtonRightLabel()}
       </View>
@@ -135,21 +158,20 @@ const styles = {
     // justifyContent: 'space-between'    
   },
 
-
   navBarEmptyContainer: {
     width: 10,
   },
 
-  sideMenuButtonOuterContainer: {
-    width: 80,
+  leftIconButtonOuter: {
+    // width: 80,
     // paddingLeft: 12,
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
 
-  sideMenuButton: {
-    height: 40,
-    width: 40,
+  leftIconButtonInner: {
+    height: 42,
+    width: 42,
     justifyContent: 'center',
     alignItems: 'center',
   },

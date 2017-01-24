@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import * as Helpers from '../common/Helpers';
 import { resetEventInfo } from '../../actions';
 import NavBar  from '../navBar/NavBar';
-import { NavTextButton } from '../navBar/NavTextButton';
 import AvatarIcon from '../avatar/AvatarIcon';
 import { Colours, Fonts } from '../styles';
 import { Border } from '../common';
@@ -131,7 +130,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected, status } = state.eventInfo;
+  const { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected, status } = state.newEventInfo;
   return { messages, eventName, arrangedBy, imgUrl, iconName, contactsSelected, status };
 };
 

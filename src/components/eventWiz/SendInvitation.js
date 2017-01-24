@@ -37,13 +37,16 @@ class SendInvitation extends Component {
     let dateOptionsArray = [];
     for (i=0; i<dates.length; i++){
       let dateObj = {};
-      dateObj.date = moment().add(dates[i].daysFromToday, 'days');
-      dateObj.startTime = dates[i].startTime ? moment(dates[i].startTime, "h:mm A") : false;
-      dateObj.endTime = dates[i].endTime ? moment(dates[i].endTime, "h:mm A") : false;
+      // dateObj.date = moment();
+      dateObj.index = i;
+      dateObj.date = moment().add(dates[i].daysFromToday, 'days').startOf('day').toISOString();
+      dateObj.startTime = dates[i].startTime ? moment(dates[i].startTime, "h:mm A").toISOString() : null;
+      dateObj.endTime = dates[i].endTime ? moment(dates[i].endTime, "h:mm A").toISOString() : null;
       dateObj.available = [this.props.userObj];
       dateOptionsArray.push(dateObj);
     }
     console.log(dateOptionsArray);
+    return dateOptionsArray;
   }
 
   prepareContacts(contacts){
@@ -85,15 +88,17 @@ class SendInvitation extends Component {
     let invitationObj = {
       created: new Date(),
       updated: new Date(),
+      readyBy: [this.props.userObj.userId],
       arrangedBy: this.props.arrangedBy,
       eventName: this.props.eventName,
       imgUrl: this.props.imgUrl,
       iconName: this.props.iconName,
-      dateOptions: dateOptions, 
+      dateOptions: dateOptions,
+      eventConfirmed: false,
       location: this.props.location,
       messages: this.props.eventMessages,    
       users: users,
-      newGroupName: this.props.newGroupName,
+      groupName: this.props.newGroupName,
     }
 
     this.sendInvitation(invitationObj);
@@ -145,7 +150,7 @@ const mapStateToProps = (state) => {
     locationSelected,
     eventMessages,
     invitationMessageAdded,
-  } = state.eventInfo;
+  } = state.newEventInfo;
   const { userObj } = state.user;
 
   return { 

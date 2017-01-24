@@ -28,7 +28,7 @@ class Name extends Component {
     msg1 = EventWizHelpers.createUserMessage(this.props.userId, eventName);      
     this.props.pushMessage(msg1);        
     this.props.updateEventName({eventName: eventName, arrangedBy: this.props.displayName});
-    this.props.addIcon('group');      
+    this.props.addIcon('calendar-o');      
     const _this = this;
     Helpers.delayDefault()
     .then(() => {

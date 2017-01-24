@@ -26,8 +26,12 @@ const Colours = {
   navBarButton: '#00EDDA',
   navBarButtonDisabled: '#37736A',
 
+  lightText: '#666',
+
   shadedBack: '#f4f4f4',
-  disabled: '#ccc'
+  disabled: '#ccc',
+
+  borderColor: '#eee',
 };
 
 export { Colours };

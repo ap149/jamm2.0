@@ -30,7 +30,7 @@ class SelectInvites extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { status } = state.eventInfo;
+  const { status } = state.newEventInfo;
 
   return { status };
 };

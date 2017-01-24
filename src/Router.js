@@ -9,6 +9,7 @@ import VerifyCode from './components/auth/VerifyCode';
 import Profile from './components/auth/Profile';
 import SideMenu from './components/sideMenu/SideMenu';
 import EventList from './components/eventList/EventList';
+import EventDetail from './components/eventDetail/EventDetail';
 import CalendarList from './components/calendarList/CalendarList';
 import EventWiz from './components/eventWiz/EventWiz';
 import CalendarPicker from './components/calendarPicker/CalendarPicker';
@@ -36,8 +37,9 @@ const RouterComponent = () => {
         <Scene key="authCheck" component={AuthCheck} title="" />                  
       </Scene>           
       <Scene key="drawer" component={SideMenu} open={false}>
-          <Scene key='eventList' component={EventList} hideNavBar={true}/>      
-      </Scene>           
+        <Scene key='eventList' component={EventList} hideNavBar={true}/>
+      </Scene>      
+      <Scene key='eventDetail' component={EventDetail} hideNavBar={true}/>
       <Scene key='calendarList' component={CalendarList} hideNavBar={true}/>
       <Scene key='eventWiz'>      
         <Scene key="eventWizChat" direction="vertical" hideNavBar={true} component={EventWiz}  panHandlers={null}/>

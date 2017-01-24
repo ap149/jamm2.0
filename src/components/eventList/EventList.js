@@ -4,29 +4,27 @@ import {
   ScrollView,
   Text, 
   TouchableOpacity,
+  LayoutAnimation,
   Button
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import Meteor, { createContainer, MeteorListView } from 'react-native-meteor';
+import Meteor, { createContainer, MeteorComplexListView } from 'react-native-meteor';
 import store from 'react-native-simple-store';
 import { loadUser } from '../../actions';
 import EventListItem from './EventListItem';
 import NavBar  from '../navBar/NavBar';
 import { Colours } from '../styles';
-import ChatOption from '../chatInput/ChatOption'
 // const offline = true;
 
 class EventList extends Component {
-  constructor(){
-    super();
-    this.state = {
-      textValue: 'test'
-    }
+
+  componentWillUpdate(){
+    // LayoutAnimation.spring();
   }
 
   logout(){
-    console.log(this.props.eventList);
+    console.log(this.props.eventsList);
     // console.log(Meteor.user());
     // console.log(this.props.user);
     // Meteor.logout();
@@ -37,27 +35,15 @@ class EventList extends Component {
     Actions.eventWiz();
   }
 
-  // renderEventItems(){
-  //   console.log(this.props.eventList);
-  //   const eventList = this.props.eventList
-  //   let eventItems = [];
-  //   for (i=0; i< eventList.length; i++){
-  //     eventList.push(
-  //       <View>
-  //         <Text>{eventList[i].eventName}</Text>
-  //         <Text>{eventList[i]._id}</Text>
-  //       </View>
-  //     )
-  //   }
-  //   return eventItems;
-  // }
-
   renderRow(eventItem){
+    const {
+      itemContainer
+    } = styles;
+    
     return (
-      <View>
-        <Text>{eventItem.eventName}</Text>
-        <Text>{eventItem._id}</Text>
-      </View>
+      <EventListItem
+        eventItem={eventItem}
+      />
     )
   }
 
@@ -75,14 +61,31 @@ class EventList extends Component {
           buttonRightPress={this.newEvent.bind(this)}
           buttonRightFixed={false}
         />
-        <Button
-          onPress={this.logout.bind(this)}
-          title="Logout"
-          color={Colours.app}          
-        />
-        <MeteorListView
-          collection="eventsList"
-          options={{sort: {updated: -1}}}
+
+        <MeteorComplexListView
+          elements={()=>{return Meteor.collection('events').find(
+            {},
+            {
+              fields: {
+                updated: 1,
+                readBy: 1,
+                eventName: 1,
+                arrangedBy: 1,
+                iconName: 1,
+                groupName: 1,
+                users: 1,
+                imgUrl: 1,
+                iconName: 1,
+                dateOptions: 1
+              },
+              sort: {
+                updated: -1
+              }
+            }
+          )}}
+
+          // collection="events"
+          // options={{sort: {updated: -1}}}
           renderRow={this.renderRow}
         />        
       </View>
@@ -94,6 +97,9 @@ const styles = {
   outerContainer: {
     flex: 1
   },
+  itemContainer: {
+    flexDirection: 'row'
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -105,7 +111,7 @@ const mapStateToProps = (state) => {
 const EventListConnected = createContainer(params=>{
   Meteor.subscribe('eventsList');
   return {
-    // eventList: Meteor.collection('events').find(),
+    eventsList: Meteor.collection('events').find(),
     // meteorUser: Meteor.user(),
     // status: Meteor.status()
   };

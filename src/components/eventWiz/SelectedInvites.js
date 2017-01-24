@@ -111,7 +111,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, contactObjs, newGroupName, contactsSelected } = state.eventInfo;
+  const { contacts, contactObjs, newGroupName, contactsSelected } = state.newEventInfo;
   return { contacts, contactObjs, newGroupName, contactsSelected };
 };
 

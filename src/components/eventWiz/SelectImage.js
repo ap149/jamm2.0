@@ -49,7 +49,7 @@ class SelectImage extends Component {
 
 const mapStateToProps = (state) => {
   const { userId } = state.user;
-  const { imgUrl, iconName } = state.eventInfo;
+  const { imgUrl, iconName } = state.newEventInfo;
 
   return { userId, imgUrl };
 };

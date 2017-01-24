@@ -9,13 +9,14 @@ class AvatarIcon extends Component {
   render(){
     const {
       outerContainer,
-      innerContainer
+      innerContainer,
+      innerContainerLarge
     } = styles;
 
     return (
       <View style={outerContainer}>
-        <View style={innerContainer}>
-          <Icon name={this.props.iconName} size={24} color={Colours.light}/>        
+        <View style={this.props.large ? innerContainerLarge : innerContainer}>
+          <Icon name={this.props.iconName} size={this.props.large ? 28 : 24} color={Colours.light}/>        
         </View>
       </View>
     )
@@ -37,6 +38,15 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    backgroundColor: Colours.app,    
+  },
+
+  innerContainerLarge: {
+    height: 48,
+    width: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 24,
     backgroundColor: Colours.app,    
   }
 }

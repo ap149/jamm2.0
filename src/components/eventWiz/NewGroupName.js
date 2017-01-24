@@ -71,7 +71,7 @@ class EventNewGroupName extends Component {
 
 const mapStateToProps = (state) => {
   const { userId } = state.user;
-  const { contacts } = state.eventInfo;
+  const { contacts } = state.newEventInfo;
 
   return { userId, contacts };
 };

@@ -80,7 +80,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { location, locationSelected } = state.eventInfo;
+  const { location, locationSelected } = state.newEventInfo;
   return { location, locationSelected };
 };
 

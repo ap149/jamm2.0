@@ -7,20 +7,14 @@ import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
 
 import React, { Component } from 'react';
 import { 
-  ScrollView,
   View, 
   ListView,
-  Text, 
-  TextInput,
-  TouchableOpacity,
-  Button,
   LayoutAnimation
 } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 import { Border } from '../common';
 import { Shadow } from '../common';
-import NavBar  from '../navBar/NavBar';
-
 import ChatView from '../chatView/ChatView';
 import ChatBubble from '../chatView/ChatBubble';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
@@ -152,7 +146,7 @@ const styles = {
 
 const mapStateToProps = (state) => {
   const { userId, displayName, phoneNumber } = state.user;
-  const { status, messages, eventName, newGroupName } = state.eventInfo;
+  const { status, messages, eventName, newGroupName } = state.newEventInfo;
   return { userId, displayName, status, messages, eventName, newGroupName };
 };
 
