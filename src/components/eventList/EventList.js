@@ -25,14 +25,10 @@ class EventList extends Component {
 
   logout(){
     console.log(this.props.eventsList);
-    // console.log(Meteor.user());
-    // console.log(this.props.user);
-    // Meteor.logout();
-    // Actions.auth({type: "reset"});
   }
 
   newEvent(){
-    Actions.eventWiz();
+    Actions.newEventWiz({eventName: null});
   }
 
   renderRow(eventItem){

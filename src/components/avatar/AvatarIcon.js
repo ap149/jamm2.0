@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import iconPath from '../icons/IconPath';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colours } from '../styles';
 
@@ -13,13 +14,22 @@ class AvatarIcon extends Component {
       innerContainerLarge
     } = styles;
 
+    // return (
+    //   <View style={outerContainer}>
+    //     <View style={this.props.large ? innerContainerLarge : innerContainer}>
+    //       <Icon name={this.props.iconName} size={this.props.large ? 28 : 24} color={Colours.light}/>        
+    //     </View>
+    //   </View>
+    // )
+    
     return (
       <View style={outerContainer}>
         <View style={this.props.large ? innerContainerLarge : innerContainer}>
-          <Icon name={this.props.iconName} size={this.props.large ? 28 : 24} color={Colours.light}/>        
+          <Image source={iconPath(this.props.iconName)} />
         </View>
       </View>
     )
+
   }
 }
 
@@ -38,7 +48,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
-    backgroundColor: Colours.app,    
+    // backgroundColor: '#fff',    
   },
 
   innerContainerLarge: {
@@ -47,7 +57,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 24,
-    backgroundColor: Colours.app,    
+    // backgroundColor: Colours.app,    
   }
 }
 

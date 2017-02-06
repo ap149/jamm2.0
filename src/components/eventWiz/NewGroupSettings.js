@@ -10,9 +10,7 @@ import ChatOption from '../chatInput/ChatOption'
 
 class NewGroupSettings extends Component {
   gotoGroupSettings(){
-    console.log("group settings");
-    // this.props.addIcon('glass');
-    // EventWizMethods.promptChooseInvites(true);    
+    Actions.groupSettings({groupNameInput: this.props.newGroupName});
   }
 
   launchDatePicker(){
@@ -22,11 +20,15 @@ class NewGroupSettings extends Component {
   render(){
     return (
       <ChatOptionContainer>
-        <ChatOption
-          label="Group settings"
-          icon="sliders"
-          onPress={this.gotoGroupSettings.bind(this)}
-        />
+        { this.props.newGroupName ? 
+          <View/>
+          :
+          <ChatOption
+            label="Group settings"
+            icon="sliders"
+            onPress={this.gotoGroupSettings.bind(this)}
+          />
+        }
         <ChatOption
           label="Choose dates"
           icon="calendar"
@@ -37,4 +39,9 @@ class NewGroupSettings extends Component {
   }
 };
 
-export default connect(null, { updateStatus })(NewGroupSettings);
+const mapStateToProps = (state) => {
+  const { newGroupName } = state.newEventInfo;
+  return { newGroupName };
+};
+
+export default connect(mapStateToProps, { })(NewGroupSettings);

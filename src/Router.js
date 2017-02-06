@@ -12,8 +12,11 @@ import EventList from './components/eventList/EventList';
 import EventDetail from './components/eventDetail/EventDetail';
 import CalendarList from './components/calendarList/CalendarList';
 import EventWiz from './components/eventWiz/EventWiz';
+import EventInfo from './components/eventInfo/EventInfo';
+import IconPicker from './components/iconPicker/IconPicker';
 import CalendarPicker from './components/calendarPicker/CalendarPicker';
 import ContactPicker from './components/contactPicker/ContactPicker';
+import GroupSettings from './components/contactPicker/GroupSettings';
 import { Colours, Fonts } from './components/styles';
 
 const RouterComponent = () => {
@@ -41,10 +44,13 @@ const RouterComponent = () => {
       </Scene>      
       <Scene key='eventDetail' component={EventDetail} hideNavBar={true}/>
       <Scene key='calendarList' component={CalendarList} hideNavBar={true}/>
-      <Scene key='eventWiz'>      
+      <Scene key='newEventWiz'>      
+        <Scene key="iconPicker" direction="vertical" hideNavBar={true} component={IconPicker}  panHandlers={null}/>
         <Scene key="eventWizChat" direction="vertical" hideNavBar={true} component={EventWiz}  panHandlers={null}/>
+        <Scene key="eventInfo" direction="vertical" hideNavBar={true} component={EventInfo}  panHandlers={null}/>
         <Scene key="chooseContacts" direction="vertical" hideNavBar={true} component={ContactPicker}  panHandlers={null}/>
         <Scene key="calendarPicker" direction="vertical" hideNavBar={true} component={CalendarPicker}  panHandlers={null}/>        
+        <Scene key="groupSettings" direction="vertical" hideNavBar={true} component={GroupSettings}  panHandlers={null}/>        
       </Scene>
     </Router>
   );

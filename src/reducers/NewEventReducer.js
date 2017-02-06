@@ -5,7 +5,7 @@ import {
   RESET_EVENT_INFO,
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
-  ADD_ICON,
+  CHANGE_ICON,
   RESET_CONTACTS_SELECTED,
   TOGGLE_CONTACT,
   SET_CONTACTS_SELECTED,
@@ -96,7 +96,7 @@ export default (state = INITIAL_STATE, action) => {
         {eventName: action.payload.eventName},
         {arrangedBy: action.payload.arrangedBy},
       );
-    case ADD_ICON:
+    case CHANGE_ICON:
       console.log("caught");
       console.log(action.payload);
       return Object.assign(

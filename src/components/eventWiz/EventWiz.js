@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { pushMessage, resetEventInfo, setStatusLoading } from '../../actions';
+import { pushMessage, resetEventInfo, setStatusLoading, updateStatus } from '../../actions';
 
 import React, { Component } from 'react';
 import { 
@@ -20,6 +20,7 @@ import ChatBubble from '../chatView/ChatBubble';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 
 import * as EventWizHelpers from './EventWizHelpers';
+import * as Helpers from '../chatView/ChatHelpers';
 import { EventStatus } from './EventStatus';
 import EventWizNavBar from './EventWizNavBar';
 
@@ -39,7 +40,9 @@ class EventWiz extends Component {
 
   componentWillMount(){
     const firstName = this.props.displayName.split(' ')[0]; 
-    this.props.pushMessage(EventWizHelpers.initMsg(firstName));
+    this.props.pushMessage(Helpers.createBotMessage(EventWizHelpers.msg.INIT_1));
+    this.props.pushMessage(Helpers.createBotMessage(EventWizHelpers.msg.INIT_2));
+    this.props.updateStatus(EventStatus.INVITES);
   }
 
   componentWillUpdate(){
@@ -150,4 +153,4 @@ const mapStateToProps = (state) => {
   return { userId, displayName, status, messages, eventName, newGroupName };
 };
 
-export default connect(mapStateToProps, { pushMessage, resetEventInfo, setStatusLoading })(EventWiz);
+export default connect(mapStateToProps, { updateStatus, pushMessage, resetEventInfo, setStatusLoading })(EventWiz);

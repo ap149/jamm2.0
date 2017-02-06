@@ -22,7 +22,7 @@ class EventListItem extends Component {
   }
 
   onPress(){
-    console.log(this.props.eventItem);
+    console.log(this.props.eventItem._id);
     this.props.setEventId(this.props.eventItem._id);
     Actions.eventDetail({eventId: this.props.eventItem._id});
   }
@@ -120,9 +120,9 @@ class EventListItem extends Component {
       sameDay: 'h:mma',
       nextDay: '[Tomorrow]',
       nextWeek: 'dddd',
-      lastDay: 'Yday h:mma',
-      lastWeek: 'ddd h:mma',
-      sameElse: 'DD/MM/YYYY'      
+      lastDay: '[Yesterday]',
+      lastWeek: 'dddd',
+      sameElse: 'DD/MM'      
     }
     // console.log(this.props.eventItem);
     return (

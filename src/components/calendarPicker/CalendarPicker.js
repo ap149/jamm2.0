@@ -180,7 +180,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { dates, datesSelected } = state.eventInfo;
+  const { dates, datesSelected } = state.newEventInfo;
   return { dates, datesSelected };
 };
 

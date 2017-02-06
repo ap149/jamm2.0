@@ -170,7 +170,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { dates } = state.eventInfo;
+  const { dates } = state.newEventInfo;
   return { dates };
 };
 

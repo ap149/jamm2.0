@@ -6,7 +6,7 @@ import {
   RESET_EVENT_INFO,
   SET_STATUS_LOADING,
   UPDATE_EVENT_NAME,
-  ADD_ICON,
+  CHANGE_ICON,
   RESET_CONTACTS_SELECTED,
   TOGGLE_CONTACT,
   SET_CONTACTS_SELECTED,
@@ -43,16 +43,16 @@ export const updateEventName = (obj) => {
   }
 }
 
-export const resetEventInfo = () => {
+export const changeIcon = (iconName) => {
   return {
-    type: RESET_EVENT_INFO
+    type: CHANGE_ICON,
+    payload: iconName
   }
 }
 
-export const addIcon = (iconName) => {
+export const resetEventInfo = () => {
   return {
-    type: ADD_ICON,
-    payload: iconName
+    type: RESET_EVENT_INFO
   }
 }
 

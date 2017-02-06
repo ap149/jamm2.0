@@ -8,7 +8,7 @@ import * as Helpers from '../common/Helpers';
 import * as ChatHelpers from '../chatView/ChatHelpers';
 import * as EventWizHelpers from './EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
-import { updateStatus, setLocation, pushMessage, invitationMessage } from '../../actions';
+import { updateStatus, setLocation, pushMessage, invitationMessage, resetEventInfo } from '../../actions';
 import { ChatOptionContainer } from '../chatInput/ChatOptionContainer'
 import ChatInput from '../chatInput/ChatInput'
 import ChatOption from '../chatInput/ChatOption'
@@ -106,7 +106,8 @@ class SendInvitation extends Component {
 
   sendInvitation(invitationObj){
     Meteor.call('createNewEvent', invitationObj);
-    Actions.pop()
+    Actions.pop();
+    this.props.resetEventInfo();
   }
 
   render(){
@@ -173,4 +174,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updateStatus, pushMessage, invitationMessage })(SendInvitation)
+export default connect(mapStateToProps, { updateStatus, pushMessage, invitationMessage, resetEventInfo })(SendInvitation)

@@ -95,7 +95,7 @@ const styles = {
   textButtonDisabledFixedWidthRight: {
     textAlign: 'right',
     color: Colours.navBarButtonDisabled,
-    fontSize: 16,
+    fontSize: 18,
     paddingHorizontal: 8,
     paddingVertical: 9,
     maxWidth: 72,

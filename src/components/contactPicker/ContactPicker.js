@@ -7,8 +7,6 @@ import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from '../eventWiz/EventWizHelpers';
 import { EventStatus } from '../eventWiz/EventStatus';
 import { View, TouchableOpacity, Text, TextInput, ListView, LayoutAnimation } from 'react-native';
-// import { NavBarContainer } from '../navBar/NavBarContainer';
-// import { NavTextButton } from '../navBar/NavTextButton';
 import NavBar from '../navBar/NavBar';
 import ChatInfoItem from '../chatView/ChatInfoItem'
 import { Colours, Fonts } from '../styles';
@@ -129,7 +127,7 @@ class ContactPicker extends Component {
   }
 
   saveAsGroup(){
-    console.log('save as group');
+    Actions.groupSettings({popNum: 2});
   }
 
   renderFilter(){
@@ -149,7 +147,7 @@ class ContactPicker extends Component {
     if (this.props.contactsSelected && !this.props.newGroupName && (this.props.contacts.length > 1)){
       return (
         <ChatInfoItem
-          iconName='upload'
+          iconName='users'
           buttonArrow
           onPress={this.saveAsGroup.bind(this)}
         >
@@ -343,7 +341,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { contacts, contactsSelected, newGroupName } = state.eventInfo;
+  const { contacts, contactsSelected, newGroupName } = state.newEventInfo;
   return { contacts, contactsSelected, newGroupName };
 };
 

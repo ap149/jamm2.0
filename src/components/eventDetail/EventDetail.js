@@ -20,15 +20,75 @@ import ChatView from '../chatView/ChatView';
 import ChatBubble from '../chatView/ChatBubble';
 import { ChatInputEmpty } from '../chatInput/ChatInputEmpty';
 
+import Invites from './Invites';
+import Dates from './Dates';
+import Location from './Location';
+import MessageInput from './MessageInput';
 
 class EventDetail extends Component {
-  render(){
+  constructor(){
+    super();
+    this.state = {
+      showInfo: true
+    }
+  }
+
+  componentWillUpdate(){
+    LayoutAnimation.spring();
+  }
+
+  getDataSource(){
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    return ds.cloneWithRows(this.props.eventItem.messages);    
+  }
+
+  toggleInfo(){
+    this.setState({showInfo: !this.state.showInfo});
+  }
+
+  renderInputContainer(){
     return (
-      <View>
-        <EventDetailNavBar eventId={this.props.eventId}/>
-        <Text>event detail</Text>
-        <Text>{this.props.eventId}</Text>
-        <Text>{this.props.eventItem.eventName}</Text>
+      <MessageInput />
+    )
+  }
+
+  renderInfo(){
+    if (this.state.showInfo){
+      return (
+        <View>
+          <Invites users={this.props.eventItem.users} />
+          <Dates dateOptions={this.props.eventItem.dateOptions} />
+          <Location location={this.props.eventItem.location} />      
+        </View>
+      )
+    }
+    return <View/>
+  }
+
+  render(){
+    const {
+      eventName,
+      arrangedBy,
+      iconName,
+      imgUrl
+    } = this.props.eventItem
+
+    return (
+      <View style={{flex: 1}}>
+        <EventDetailNavBar 
+          eventName={eventName}
+          arrangedBy={arrangedBy}
+          iconName={iconName}
+          imgUrl={imgUrl}
+          toggleInfo={this.toggleInfo.bind(this)}
+        />
+        {this.renderInfo()}
+        <ChatView 
+          chatData={this.getDataSource()}
+        />
+        <Border />
+        {this.renderInputContainer()}
+        <KeyboardSpacer/>
       </View>
     )
   }
@@ -40,5 +100,10 @@ const EventDetailConnected = createContainer((props)=>{
     eventItem: Meteor.collection('events').findOne({'_id':props.eventId}),
   };
 }, EventDetail)
+
+// const mapStateToProps = (state) => {
+//   const { eventObject } = state.evenInfo;
+//   return { eventInfo };
+// };
 
 export default connect(null, { })(EventDetailConnected);

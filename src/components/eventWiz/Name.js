@@ -3,7 +3,7 @@ import { TextInput, View, Text, Keyboard } from 'react-native';
 import ChatInput from '../chatInput/ChatInput'
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { updateEventName, addIcon, updateStatus } from '../../actions';
+import { updateEventName, changeIcon, updateStatus } from '../../actions';
 import { pushMessage } from '../../actions';
 import * as Helpers from '../common/Helpers';
 import * as EventWizHelpers from './EventWizHelpers';
@@ -28,7 +28,7 @@ class Name extends Component {
     msg1 = EventWizHelpers.createUserMessage(this.props.userId, eventName);      
     this.props.pushMessage(msg1);        
     this.props.updateEventName({eventName: eventName, arrangedBy: this.props.displayName});
-    this.props.addIcon('calendar-o');      
+    this.props.changeIcon('calendar-o');      
     const _this = this;
     Helpers.delayDefault()
     .then(() => {
@@ -70,4 +70,4 @@ const mapStateToProps = (state) => {
   return { userId, displayName };
 };
 
-export default connect(mapStateToProps, { updateEventName, addIcon, updateStatus, pushMessage})(Name);
+export default connect(mapStateToProps, { updateEventName, changeIcon, updateStatus, pushMessage})(Name);

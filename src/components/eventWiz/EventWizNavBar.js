@@ -46,6 +46,12 @@ class EventWizNavBar extends Component {
   
   editInfo(){
     console.log("edit info");
+    Actions.iconPicker({
+      newEventMode: true,
+      eventName: this.props.eventName,
+      iconName: this.props.iconName,
+      eventId: false
+    });
   }
 
   renderGraphic(){

@@ -14,7 +14,7 @@ class SelectedInvites extends Component {
 
   onPress(){
     if (this.props.newGroupName){
-      console.log("go to group settings");
+      Actions.groupSettings({init: false, groupNameInput: this.props.newGroupName});
     } else {
       Actions.chooseContacts();
     }
@@ -45,14 +45,7 @@ class SelectedInvites extends Component {
     if (!this.props.contactsSelected) {
       return <View/>
     }
-    const {
-      infoContainer,
-      iconContainer,
-      inviteInfoContainer,
-      itemTextButton,
-      textButtonText
-    } = styles;
-    const _this = this;
+
     return (
       <ChatInfoItem
         iconName={this.props.contacts.length === 1 ? 'user' : 'user'}
@@ -61,52 +54,7 @@ class SelectedInvites extends Component {
       >
         {this.renderSelectedInfo()}
       </ChatInfoItem>
-      // <View>
-      //   <View style={infoContainer}>
-      //     <View style={iconContainer}>
-      //       <Icon name={this.props.contacts.length === 1 ? 'user' : 'users'} size={16} color={Colours.iconShade}/>
-      //     </View>
-      //     <View style={inviteInfoContainer}>
-      //       {this.renderSelectedInfo(this.props.contacts)}
-      //     </View>
-      //     <TouchableOpacity style={itemTextButton}>
-      //       <Text style={textButtonText}>Change</Text>
-      //     </TouchableOpacity>             
-      //   </View>
-      // </View>
     )
-  }
-}
-
-const styles = {
-  infoContainer: {
-    flexDirection: 'row',
-    backgroundColor: Colours.navBarBack
-  },
-
-  iconContainer: {
-    width: 40,
-    minHeight: 40,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  inviteInfoContainer: {
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    flex: 1
-  },
-
-  itemTextButton: {
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-    justifyContent: 'center'
-  },
-
-  textButtonText: {
-    color: Colours.app
   }
 }
 

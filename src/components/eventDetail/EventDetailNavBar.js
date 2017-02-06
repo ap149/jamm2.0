@@ -13,27 +13,23 @@ import AvatarIcon from '../avatar/AvatarIcon';
 import NavBar  from '../navBar/NavBar';
 
 class EventDetailNavBar extends Component {
-  // constructor(props){
-  //   super(props);
-  //   console.log(props.eventId);
-  // }
 
   goBack(){
     Actions.pop();
   }
 
   renderGraphic(){
-    if (this.props.eventItem.imgUrl){
+    if (this.props.imgUrl){
       return (
         <View>
           <Text>img</Text>
         </View>
       )
     }
-    if (this.props.eventItem.iconName){
+    if (this.props.iconName){
       return (
         <AvatarIcon
-          iconName={this.props.eventItem.iconName}
+          iconName={this.props.iconName}
         />
       )
     }
@@ -47,7 +43,7 @@ class EventDetailNavBar extends Component {
     const {
       eventName,
       arrangedBy
-    } = this.props.eventItem;
+    } = this.props;
 
     return (
       <View style={eventInfoContainer}>
@@ -64,7 +60,7 @@ class EventDetailNavBar extends Component {
 
     return (
       <TouchableOpacity 
-        onPress={() => console.log('edit info')}
+        onPress={this.props.toggleInfo}
         style={styles.midContainer}
       >
         {this.renderGraphic()}
@@ -100,11 +96,4 @@ const styles = {
   }
 }
 
-const EventDetailNavBarConnected = createContainer((props)=>{
-  Meteor.subscribe('events');
-  return {
-    eventItem: Meteor.collection('events').findOne({'_id':props.eventId}),
-  };
-}, EventDetailNavBar)
-
-export default connect(null, { })(EventDetailNavBarConnected);;
+export default EventDetailNavBar;

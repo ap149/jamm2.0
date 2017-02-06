@@ -51,18 +51,22 @@ export const createAutoMessage = (body) => {
   }
 }
 
-
-
-export const initMsg = (name) => {
-  const msg = `Hi ${name} - let's set up a new event. What are you organising?`;
+// export const initMsg = (name) => {
+//   const msg = `Hi ${name} - let's set up a new event. What are you organising?`;
+//   return createBotMessage(msg);
+// }
+export const initMsg = (eventName) => {
+  const msg = `ok. Change the event title anytime by tapping at the top. Who do you want to invite?`;
   return createBotMessage(msg);
 }
 
 
 export const msg = {
+  INIT_1: "Change the event title anytime by tapping at the top.",
+  INIT_2: "Who do you want to invite?",
   SKIP: 'Not right now.',
   PROMPT_CONTACTS: 'Next select who you want to invite.',
-  NEW_GROUP_NAME: 'If you want to save these contacts as a group, enter a name below. Otherwise tap choose dates.',
+  NEW_GROUP_NAME: 'You can save the group if you like. Otherwise choose dates for the event.',
   INVITES_UPDATED: 'Invites updated',
   GROUP_SAVED: "Ok. This will be a shared group that everyone in it can use. You are the only admin. Do you want to change any settings or start choosing dates?",
   PROMPT_DATES: "Ok. Next suggest dates for the event.",
